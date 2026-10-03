@@ -44,7 +44,7 @@ async def speech_mode():
                 print("t key input")
             elif "open" in words or "close" in words or "clothes" in words:
                 print("e key input")
-            elif "quit" in words or "kit" in words or "leave" in words or "leaf" in words:
+            elif "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words:
                 print("quit input")
                 return
 

@@ -46,6 +46,7 @@ async def speech_mode():
                 print("e key input")
             elif "quit" in words or "kit" in words or "leave" in words or "leaf" in words:
                 print("quit input")
+                return
 
             # Wait a split second before getting more input from the microphone
             await asyncio.sleep(1)

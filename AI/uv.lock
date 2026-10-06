@@ -7,15 +7,11 @@ name = "ai"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "pyaudio" },
     { name = "whisper-mic" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "pyaudio", specifier = ">=0.2.14" },
-    { name = "whisper-mic", specifier = ">=1.4.4" },
-]
+requires-dist = [{ name = "whisper-mic", specifier = ">=1.4.4" }]
 
 [[package]]
 name = "annotated-doc"

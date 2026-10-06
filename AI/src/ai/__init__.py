@@ -1,5 +1,4 @@
 from whisper_mic import WhisperMic
-import os
 
 # Create the model
 model = WhisperMic(model="base", english=True)
@@ -10,7 +9,7 @@ while(1):
     words = []
     try:
         # Get the model's transcription
-        text = model.listen(timeout=1)
+        text = model.listen()
         text = text.lower()
         print(text)
         

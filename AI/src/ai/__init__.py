@@ -1,4 +1,4 @@
-from whisper_mic import WhisperMic
+"""from whisper_mic import WhisperMic
 
 # Create the model
 model = WhisperMic(model="base", english=True)
@@ -27,6 +27,7 @@ while(1):
         print(words)
     except Exception as error:
         print(error)
+        continue
     
     # Go through the words and run any commands found
     # Some commands have multiple words for speech impendements or accents
@@ -50,4 +51,15 @@ while(1):
         print("e key input")
     if "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words or "quid" in words:
         print("quit input")
-        quit()
+        quit()"""
+
+from whisper_mic import WhisperMic    
+        
+model = WhisperMic(model="base", english=True, pause=0.5, dynamic_energy=True)
+
+for text in model.listen_continuously(phrase_time_limit=0.5):
+    if not text:
+        continue
+    text = text.lower()
+    words = text.split(' ')
+    print(words)

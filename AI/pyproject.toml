@@ -8,6 +8,8 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "panns-inference>=0.1.1",
+    "sounddevice>=0.5.6",
     "whisper-mic>=1.4.4",
 ]
 

@@ -1,3 +1,6 @@
+# Note: This file will NOT run without installing the necessary files.
+# See README.md for installation instructions.
+
 import numpy as np
 import sounddevice as sd
 from panns_inference import labels

@@ -27,5 +27,19 @@ while True:
     with torch.no_grad(): # disable gradient tracking
         scores = model(torch.from_numpy(audio[None]), None)["clipwise_output"][0].numpy()
 
-    best = np.argmax(scores)
-    print(f"  heard: {labels[best]} ({scores[best]:.2f})")
+    # best = np.argmax(scores)
+    # print(f"  heard: {labels[best]} ({scores[best]:.2f})")
+
+    def score(name):
+        return scores[labels.index(name)]
+
+    if score("Clapping") > 0.3 or score("Hands") > 0.3:
+        print("  input: clap")
+    if score("Finger snapping") > 0.3:
+        print("  input: snap")
+    if score("Whistling") > 0.3:
+        print("  input: whistling")
+    if score("Humming") > 0.25:
+        print("  input: hum")
+    else:
+        print(f"  no input assigned: {labels[np.argmax(scores)]}")

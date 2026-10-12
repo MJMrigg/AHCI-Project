@@ -1,6 +1,6 @@
 ## Run Commands
 - `uv run ai` - voice recognition program
-- `uv run sound_interpreter.py` - sound recognition program
+- `uv run src/ai/sound_interpreter.py` - sound recognition program
 
 ## Sound Recognition Model Setup
 The sound recognizer uses the PANNs Cnn14 audio tagging model. It requires two files that are **not** in the repo.

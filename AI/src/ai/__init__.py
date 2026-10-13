@@ -19,15 +19,18 @@ for text in model.listen_continuously(phrase_time_limit=2):
     # Go through the words and run any commands found
     # Some commands have multiple words for speech impendements, accents, or in case the AI misinterprets the word
     if "up" in words or "uh" in words or "bye" in words or "ah" in words or "off" in words:
+        key_presser.release("s")
         key_presser.toggle("w")
         print("w key input")
     if "down" in words or "dow" in words or "now" in words:
+        key_presser.release("w")
         key_presser.toggle("s")
-        print("s key input")
     if "right" in words or "write" in words or "rite" in words or "white" in words:
+        key_presser.release("a")
         key_presser.toggle("d")
         print("d key input")
     if "left" in words or "let" in words:
+        key_presser.release("d")
         key_presser.toggle("a")
         print("a key input")
     if "pause" in words or "paws" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words:

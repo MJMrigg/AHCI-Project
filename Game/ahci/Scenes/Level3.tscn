@@ -1,3 +1,8 @@
 [gd_scene format=3 uid="uid://b51tdcg7kb31m"]
 
+[ext_resource type="TileSet" uid="uid://cijtfvnvt1s7n" path="res://Assets/Sprites/Background/tileSet.tres" id="1_0gyft"]
+
 [node name="Level3" type="Node2D" unique_id=181761747]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=865842583]
+tile_set = ExtResource("1_0gyft")

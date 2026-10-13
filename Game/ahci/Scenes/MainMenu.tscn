@@ -66,7 +66,6 @@ text = "Sound Mode"
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=1721130465]
 custom_minimum_size = Vector2(170, 50)
 layout_mode = 2
-size_flags_horizontal = 4
 theme = ExtResource("1_tt5f1")
 text = "Quit"
 

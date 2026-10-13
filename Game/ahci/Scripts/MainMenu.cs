@@ -5,6 +5,8 @@ using System.Text;
 
 public partial class MainMenu : Control
 {
+	[Export] public bool HideDebugConsole;
+	
 	public void play(){
 		GetTree().ChangeSceneToFile("uid://cuuimd7fyr2kj");
 	}
@@ -34,7 +36,7 @@ public partial class MainMenu : Control
 			process.StartInfo.FileName = "cmd.exe";
 			process.StartInfo.Arguments = args;
 			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.CreateNoWindow = HideDebugConsole;
 			
 			process.Start();
 		}

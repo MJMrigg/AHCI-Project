@@ -1,3 +1,67 @@
 [gd_scene format=3 uid="uid://dcsoxuw8fc8fk"]
 
-[node name="MainMenu" type="Node2D" unique_id=754931474]
+[ext_resource type="Theme" uid="uid://cjppugjqt866i" path="res://Themes/MainTheme.tres" id="1_tt5f1"]
+
+[node name="MainMenu" type="Control" unique_id=300650998]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=1809210936]
+custom_minimum_size = Vector2(370, 133)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.307
+anchor_top = 0.21300001
+anchor_right = 0.693
+anchor_bottom = 0.418
+offset_left = 37.336
+offset_top = -0.024002075
+offset_right = -37.336
+offset_bottom = 0.13598633
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 80
+text = "Incantation"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=402230892]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.42600003
+anchor_top = 0.45200002
+anchor_right = 0.574
+anchor_bottom = 0.77900004
+offset_left = 0.24795532
+offset_top = 0.10397339
+offset_right = -0.24798584
+offset_bottom = 0.2079773
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Keyboard" type="Button" parent="VBoxContainer" unique_id=1949114326]
+custom_minimum_size = Vector2(170, 50)
+layout_mode = 2
+theme = ExtResource("1_tt5f1")
+text = "Keyboard Mode"
+
+[node name="Word" type="Button" parent="VBoxContainer" unique_id=1497958253]
+custom_minimum_size = Vector2(170, 50)
+layout_mode = 2
+theme = ExtResource("1_tt5f1")
+text = "Vocal Mode"
+
+[node name="Sound" type="Button" parent="VBoxContainer" unique_id=1649205472]
+custom_minimum_size = Vector2(170, 50)
+layout_mode = 2
+theme = ExtResource("1_tt5f1")
+text = "Sound Mode"
+
+[node name="Quit" type="Button" parent="VBoxContainer" unique_id=1721130465]
+custom_minimum_size = Vector2(170, 50)
+layout_mode = 2
+theme = ExtResource("1_tt5f1")
+text = "Quit"

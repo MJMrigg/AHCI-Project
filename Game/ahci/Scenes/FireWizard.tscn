@@ -13,8 +13,12 @@ MyPhyCol = NodePath("CollisionShape2D")
 MySpriteAnim = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=336580289]
+texture_filter = 1
+position = Vector2(1, 0)
 sprite_frames = ExtResource("1_gs6ox")
-animation = &"Walk"
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.7179166
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1865974566]
 position = Vector2(-1, 1)

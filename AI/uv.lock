@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.13"
 
 [[package]]
@@ -8,6 +8,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "panns-inference" },
+    { name = "pynput" },
     { name = "sounddevice" },
     { name = "whisper-mic" },
 ]
@@ -15,6 +16,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "panns-inference", specifier = ">=0.1.1" },
+    { name = "pynput", specifier = ">=1.8.2" },
     { name = "sounddevice", specifier = ">=0.5.6" },
     { name = "whisper-mic", specifier = ">=1.4.4" },
 ]

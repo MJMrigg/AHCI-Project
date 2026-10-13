@@ -3,6 +3,20 @@ using System;
 
 public partial class PauseMenu : ColorRect
 {
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		
+		if(Input.IsActionPressed("Quit") && Visible)
+		{
+			Yes();
+		}
+		if(Input.IsActionPressed("Pause"))
+		{
+			Reveal();
+		}
+	}
+	
 	public void Yes(){
 		if(GetTree().GetCurrentScene().Name == "MainMenu")
 		{

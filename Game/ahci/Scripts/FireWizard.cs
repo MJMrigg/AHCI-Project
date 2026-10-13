@@ -3,7 +3,7 @@ using System;
 
 public partial class FireWizard : CharacterBody2D
 {
-	[Export]public CollisionShape2D MyPhyCol; // Don't know if this will be needed yet. Here just in case - David T
+	[Export] public CollisionShape2D MyPhyCol; // Don't know if this will be needed yet. Here just in case - David T
 	[Export] public AnimatedSprite2D MySpriteAnim; 
 	
 	[Export] public int Speed = 200; //How fast the character should move

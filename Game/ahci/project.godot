@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="AHCI"
-config/features=PackedStringArray("4.6", "Forward Plus")
+run/main_scene="uid://cuuimd7fyr2kj"
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 
 [display]
 

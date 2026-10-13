@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://bt83eojgmoqm0"]
 
+[ext_resource type="Script" uid="uid://bj130h4xroaly" path="res://Scripts/PauseMenu.cs" id="1_lj4oq"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2eowd"]
 bg_color = Color(0, 1, 0, 1)
 
@@ -31,6 +33,7 @@ offset_right = 0.5119629
 offset_bottom = 0.2079773
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_lj4oq")
 
 [node name="Label" type="Label" parent="." unique_id=682198116]
 layout_mode = 1
@@ -78,3 +81,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_5w4ur")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ey1tb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_siy43")
 text = "No"
+
+[connection signal="pressed" from="HBoxContainer/Yes" to="." method="Yes"]
+[connection signal="pressed" from="HBoxContainer/No" to="." method="No"]

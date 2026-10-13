@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dcsoxuw8fc8fk"]
 
+[ext_resource type="Script" uid="uid://3rapxx1dho6a" path="res://Scripts/MainMenu.cs" id="1_853f1"]
 [ext_resource type="Theme" uid="uid://cjppugjqt866i" path="res://Themes/MainTheme.tres" id="1_tt5f1"]
+[ext_resource type="PackedScene" uid="uid://bt83eojgmoqm0" path="res://Scenes/PauseMenu.tscn" id="3_8saeu"]
 
 [node name="MainMenu" type="Control" unique_id=300650998]
 layout_mode = 3
@@ -9,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_853f1")
 
 [node name="Label" type="Label" parent="." unique_id=1809210936]
 custom_minimum_size = Vector2(370, 133)
@@ -63,5 +66,24 @@ text = "Sound Mode"
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=1721130465]
 custom_minimum_size = Vector2(170, 50)
 layout_mode = 2
+size_flags_horizontal = 4
 theme = ExtResource("1_tt5f1")
 text = "Quit"
+
+[node name="PauseMenu" parent="." unique_id=2096320971 instance=ExtResource("3_8saeu")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -231.0
+offset_top = -113.5
+offset_right = 231.0
+offset_bottom = 113.5
+
+[connection signal="pressed" from="VBoxContainer/Keyboard" to="." method="keyboard"]
+[connection signal="pressed" from="VBoxContainer/Word" to="." method="vocal"]
+[connection signal="pressed" from="VBoxContainer/Sound" to="." method="sound"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="PauseMenu" method="Reveal"]

@@ -33,22 +33,24 @@ while True:
     def score(name):
         return scores[labels.index(name)]
 
-    if score("Humming") > 0.25: # in progress: differentiate high/low hum
+    th = 0.3 # threshold
+
+    if score("Humming") > th or score("Hum") > th: # in progress: differentiate high/low hum
         print("  input: hum")
-    if score("Whistling") > 0.3: # in progress: differentiate high/low whistle
+    if score("Whistling") > th or score("Whistle") > th: # in progress: differentiate high/low whistle
         print("  input: whistle")
-    if score("Finger snapping") > 0.3: # Pause (esc)
+    if score("Finger snapping") > th: # Pause (esc)
         print("  input: snap")
-    if score("Clapping") > 0.3 or score("Hands") > 0.3: # Fireball (F)
+    if score("Clapping") > th or score("Hands") > th: # Fireball (F)
         print("  input: clap")
-    if score("Blowing") > 0.3: # Gust (G)
+    if score("Wind") > th or score("Wind noise (microphone)") > th: # Gust (G)
         print("  input: blow")
-    if score("Tongue click") > 0.3: # Translate (F)
+    if score("Clicking") > th: # Translate (F)
         print("  input: click")
-    if score("Pop") > 0.3: # Open/Close (E)
+    if score("Burst, pop") > th: # Open/Close (E)
         print("  input: pop")
-    if score("") > 0.3: # Quit (Q)
-        print("  input: mhm")
+    if score("Meow") > th: # Quit (Q)
+        print("  input: meow")
     
     else:
         print(f"  no input assigned: {labels[np.argmax(scores)]}")

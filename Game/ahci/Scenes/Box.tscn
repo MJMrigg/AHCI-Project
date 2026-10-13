@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dntatb5lc7y22"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nqg3c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nqg3c"]
+size = Vector2(10, 10)
+
+[node name="Box" type="RigidBody2D" unique_id=1665384273]
+physics_material_override = SubResource("PhysicsMaterial_nqg3c")
+gravity_scale = 0.0
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1879385417]
+color = Color(0.50395256, 0.23597196, 0.018839916, 1)
+polygon = PackedVector2Array(5, 5, 5, -5, -5, -5, -5, 5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=257983039]
+shape = SubResource("RectangleShape2D_nqg3c")

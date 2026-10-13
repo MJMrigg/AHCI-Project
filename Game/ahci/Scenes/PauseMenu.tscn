@@ -20,24 +20,6 @@ bg_color = Color(0.7397895, 1.9372628e-06, 9.62615e-07, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_siy43"]
 bg_color = Color(0.7411765, 0, 0, 1)
 
-[sub_resource type="CSharpScript" id="CSharpScript_lj4oq"]
-script/source = "using Godot;
-using System;
-
-public partial class No : Button
-{
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-}
-"
-
 [node name="PauseMenu" type="ColorRect" unique_id=2096320971]
 custom_minimum_size = Vector2(462, 227)
 anchors_preset = -1
@@ -99,7 +81,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_5w4ur")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ey1tb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_siy43")
 text = "No"
-script = SubResource("CSharpScript_lj4oq")
 
 [connection signal="pressed" from="HBoxContainer/Yes" to="." method="Yes"]
 [connection signal="pressed" from="HBoxContainer/No" to="." method="No"]

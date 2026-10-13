@@ -28,3 +28,7 @@ class KeyPresser:
         else:
             # if not pressed then press
             self.press(key)
+    
+    def press_once(self, key: str| Key | KeyCode) -> None:
+        self.press(key)
+        self.release(key)

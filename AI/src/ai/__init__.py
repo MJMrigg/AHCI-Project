@@ -1,13 +1,11 @@
 from whisper_mic import WhisperMic
 from key_press import KeyPresser
-from pynput import Key, KeyCode
+from pynput.keyboard import Key, KeyCode
         
 model = WhisperMic(model="base", english=True, pause=0.5)
 key_presser = KeyPresser()
-
-def press_once(key: str | Key | KeyCode) -> None:
-    key_presser.press(key)
-    key_presser.release(key)
+esc = Key.esc
+paused = False
 
 # Continuously transcribe microphone words into text and evaluate those words in two second chunks
 for text in model.listen_continuously(phrase_time_limit=2):
@@ -32,26 +30,28 @@ for text in model.listen_continuously(phrase_time_limit=2):
     if "left" in words or "let" in words:
         key_presser.toggle("a")
         print("a key input")
-    if "pause" in words or "paws" in words or "unpause" in words or "pawns" in words or "continue" in words:
-        esc = Key.esc
-        press_once(esc)
+    if "pause" in words or "paws" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words:
+        key_presser.toggle(esc)
+        paused = True
         print("esc key input")
     if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words:
-        press_once("f")
+        key_presser.press_once("f")
         print("f key input")
     if "gust" in words or "guts" in words or "wind" in words or "winned" in words or "gus" in words or "gussed" in words or "gas" in words or "guest" in words or "dust" in words:
-        press_once("g")
+        key_presser.press_once("g")
         print("g key input")
     if "translate" in words or "interpret" in words or "late" in words or "sleet" in words:
-        press_once("t")
+        key_presser.press_once("t")
         print("t key input")
     if "open" in words or "close" in words or "clothes" in words:
-        press_once("g")
+        key_presser.press_once("g")
         print("e key input")
-    if "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words or "quid" in words:
-        press_once("q")
-        keys = ["w", "s", "a", "d", Key.esc, "f", "g", "t", "e", "q"]
-        for key in keys:
-            key_presser.release(key)
-        print("quit input")
-        quit()
+    if "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words or "quid" in words or "quits" in words:
+        if key_presser.key_states[esc] or paused:
+            key_presser.press_once("q")
+            keys = ["w", "s", "a", "d", esc, "f", "g", "t", "e","q"]
+            for key in keys:
+                key_presser.release(key)
+            print("quit input")
+            quit()
+    print(text)

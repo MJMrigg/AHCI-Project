@@ -14,6 +14,10 @@ config/name="AHCI"
 run/main_scene="uid://cuuimd7fyr2kj"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 
+[autoload]
+
+GameMaster="*uid://c2qri5h00gym8"
+
 [display]
 
 window/stretch/mode="canvas_items"

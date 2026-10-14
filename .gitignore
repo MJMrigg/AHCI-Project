@@ -5,3 +5,4 @@
 .DS_Store
 *.pth
 *.idea
+/AI/src/ai/__pycache__

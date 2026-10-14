@@ -10,4 +10,4 @@ tile_map_data = PackedByteArray("AAAEAAQAAAACAAAAAAAEAAUAAAACAAEAAAAEAAYAAAACAAI
 tile_set = ExtResource("1_2llne")
 
 [node name="FireWizard" parent="." unique_id=502472075 instance=ExtResource("2_q12u6")]
-position = Vector2(66, 125)
+position = Vector2(405, 124)

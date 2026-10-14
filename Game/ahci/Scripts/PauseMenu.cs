@@ -11,7 +11,7 @@ public partial class PauseMenu : ColorRect
 		{
 			Yes();
 		}
-		if(Input.IsActionPressed("Pause"))
+		if(Input.IsActionJustPressed("Pause"))
 		{
 			Reveal();
 		}

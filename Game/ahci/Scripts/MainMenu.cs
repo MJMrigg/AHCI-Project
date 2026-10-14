@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class MainMenu : Control
 {
@@ -14,13 +15,11 @@ public partial class MainMenu : Control
 	
 	public void vocal(){
 		//Change mode in singleton
-		//Start Python process
 		play();
 	}
 	
 	public void sound(){
 		//Change mode in singleton
-		//Start python process
 		play();
 	}
 }

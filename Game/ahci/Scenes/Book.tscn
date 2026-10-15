@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bvl28rlo4x1ed"]
+
+[ext_resource type="Script" uid="uid://c0x77lo5ecq4l" path="res://Scripts/Book.cs" id="1_85ged"]
+[ext_resource type="Texture2D" uid="uid://ci18fm7yav4ua" path="res://Assets/Sprites/Foreground/Book.png" id="1_uok8s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uok8s"]
+radius = 135.01482
+
+[node name="Book" type="Node2D" unique_id=1244758122]
+script = ExtResource("1_85ged")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=972635340]
+texture = ExtResource("1_uok8s")
+
+[node name="InteractArea2D" type="Area2D" parent="." unique_id=528313155]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea2D" unique_id=170462864]
+shape = SubResource("CircleShape2D_uok8s")

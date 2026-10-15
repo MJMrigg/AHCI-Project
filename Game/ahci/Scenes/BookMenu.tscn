@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b8k3snjwc7idl"]
+
+[ext_resource type="Script" uid="uid://pa2egs36nk6p" path="res://Scripts/BookMenu.cs" id="1_y7vow"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_y7vow"]
+font_size = 24
+font_color = Color(0, 0, 0, 1)
+
+[node name="BookMenu" type="Control" unique_id=884143370]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y7vow")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2063311920]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ColorRect" unique_id=1565691382]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "This is some test text."
+label_settings = SubResource("LabelSettings_y7vow")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true

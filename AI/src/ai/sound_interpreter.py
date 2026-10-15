@@ -132,7 +132,7 @@ def main():
         elif sound == "double snap":
             if paused:
                 key_presser.press_once("q")
-                for key in ["w", "s", "a", "d"]:
+                for key in ["w", "s", "a", "d", esc, "f", "g", "t", "e","q"]:
                     key_presser.release(key)
                 print("  input: double snap (quit)")
                 quit()

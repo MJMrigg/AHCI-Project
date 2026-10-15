@@ -17,6 +17,12 @@ public partial class GameMaster : Node
     public double EndTime = 0.0f;
     public double TotalTime = 0.0f;
 
+    public override void _Ready()
+    {
+        base._Ready();
+        Instance = this;
+    }
+
     // Start the game in audio mode
     public void StartAudio()
     {

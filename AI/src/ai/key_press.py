@@ -32,3 +32,16 @@ class KeyPresser:
     def press_once(self, key: str| Key | KeyCode) -> None:
         self.press(key)
         self.release(key)
+    
+    def release_all(self):
+        for key in ["a", "s", "d", "w", "t", "f", "q", "g", "e", Key.esc]:
+            self.release(key)
+    
+    def pause(self):
+        for key in ["a", "s", "d", "w"]:
+            self.controller.release(key)
+    
+    def unpause(self):
+        for key in ["a", "s", "d", "w"]:
+            if self.key_states[key]:
+                self.controller.press(key)

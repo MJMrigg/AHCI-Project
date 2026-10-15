@@ -116,6 +116,10 @@ def main():
         elif sound == "snap":
             key_presser.press_once(esc)
             paused = not paused
+            if paused:
+                key_presser.pause()
+            else:
+                key_presser.unpause()
             print("  input: snap (pause/unpause)")
         elif sound == "clap":
             key_presser.press_once("f")
@@ -132,8 +136,7 @@ def main():
         elif sound == "double snap":
             if paused:
                 key_presser.press_once("q")
-                for key in ["w", "s", "a", "d", esc, "f", "g", "t", "e","q"]:
-                    key_presser.release(key)
+                key_presser.release_all()
                 print("  input: double snap (quit)")
                 quit()
             else:

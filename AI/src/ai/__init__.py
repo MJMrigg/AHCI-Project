@@ -35,7 +35,11 @@ for text in model.listen_continuously(phrase_time_limit=2):
         print("a key input")
     if "pause" in words or "paws" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words:
         key_presser.toggle(esc)
-        paused = True
+        paused = not paused
+        if paused:
+            key_presser.pause()
+        else:
+            key_presser.unpause()
         print("esc key input")
     if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words:
         key_presser.press_once("f")
@@ -52,9 +56,7 @@ for text in model.listen_continuously(phrase_time_limit=2):
     if "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words or "quid" in words or "quits" in words:
         if key_presser.key_states[esc] or paused:
             key_presser.press_once("q")
-            keys = ["w", "s", "a", "d", esc, "f", "g", "t", "e","q"]
-            for key in keys:
-                key_presser.release(key)
+            key_presser.release_all()
             print("quit input")
             quit()
     print(text)

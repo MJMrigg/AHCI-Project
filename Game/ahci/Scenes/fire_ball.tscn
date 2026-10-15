@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://co66n1oe0s763"]
+
+[ext_resource type="Texture2D" uid="uid://c2fueiclrmsrs" path="res://Assets/Sprites/Fire Wizard/Charge.png" id="1_qb2lp"]
+[ext_resource type="Script" uid="uid://cqypy0mhl0ihp" path="res://Scripts/FireBall.cs" id="1_x8156"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qb2lp"]
+atlas = ExtResource("1_qb2lp")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8156"]
+atlas = ExtResource("1_qb2lp")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vxs2v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qb2lp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8156")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qb2lp"]
+radius = 4.1231055
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x8156"]
+radius = 6.0
+
+[node name="FireBall" type="CharacterBody2D" unique_id=1236929294]
+rotation = 3.1415927
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_x8156")
+_speed = 300.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2129508777]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_vxs2v")
+autoplay = "default"
+frame_progress = 0.9190689
+offset = Vector2(-20, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1300375831]
+shape = SubResource("CircleShape2D_qb2lp")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1639205728]
+collision_layer = 4
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1332300448]
+shape = SubResource("CircleShape2D_x8156")
+
+[connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]

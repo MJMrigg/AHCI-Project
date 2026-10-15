@@ -3,13 +3,13 @@ using Godot;
 public partial class BookMenu : Control
 {
 	// Instructions based on audio/keyboard mode and (un)translated mode
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string UntranslatedAudioInstructions = "\n\nSæ \"brœs\" tra clænx thës ovra'lei";
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string UntranslatedKeyboardInstructions = "\n\nPrš \"ɘ\" tra chœ̆l thîs uvea'lea";
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string TranslatedAudioInstructions = "\n\nSay \"close\" to close this overlay";
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string TranslatedKeyboardInstructions = "\n\nPress \"e\" to close this overlay";
 
 	// Helper variables for getting the (un)translated versions based on the audio mode

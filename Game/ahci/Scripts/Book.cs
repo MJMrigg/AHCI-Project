@@ -2,13 +2,13 @@ using Godot;
 
 public partial class Book : Node2D, IInteractable
 {
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string TranslatedKeyboard = "";
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string UntranslatedKeyboard = "";
-	[Export]
+    [Export(PropertyHint.MultilineText)]
 	public string TranslatedAudio = "";
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string UntranslatedAudio = "";
 
     [Export]
@@ -36,6 +36,15 @@ public partial class Book : Node2D, IInteractable
 		if (_bookMenu is null)
 		{
             GD.PushError("Book " + Name + " requires _bookMenu to be set");
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+        if (!_bookMenu.IsOpen(this))
+        {
+            this.Interact();
         }
     }
 

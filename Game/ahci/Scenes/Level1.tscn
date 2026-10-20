@@ -2,6 +2,8 @@
 
 [ext_resource type="TileSet" uid="uid://cijtfvnvt1s7n" path="res://Assets/Sprites/Background/tileSet.tres" id="1_2llne"]
 [ext_resource type="PackedScene" uid="uid://7hp6321xbtoj" path="res://Scenes/FireWizard.tscn" id="2_q12u6"]
+[ext_resource type="PackedScene" uid="uid://bjmj47cfquvlj" path="res://Scenes/Door.tscn" id="3_joc8x"]
+[ext_resource type="PackedScene" uid="uid://n20gunrnwolj" path="res://Scenes/WoodWall.tscn" id="4_jghel"]
 
 [node name="Level1" type="Node2D" unique_id=637987576]
 
@@ -11,3 +13,10 @@ tile_set = ExtResource("1_2llne")
 
 [node name="FireWizard" parent="." unique_id=502472075 instance=ExtResource("2_q12u6")]
 position = Vector2(405, 124)
+
+[node name="Door" parent="." unique_id=1476395476 instance=ExtResource("3_joc8x")]
+position = Vector2(466, 25)
+NextRoom = "uid://coxnfx5yfvfsq"
+
+[node name="WoodWall" parent="." unique_id=770465038 instance=ExtResource("4_jghel")]
+position = Vector2(260, 167)

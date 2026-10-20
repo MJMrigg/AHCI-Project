@@ -82,7 +82,7 @@ offset_top = -113.5
 offset_right = 231.0
 offset_bottom = 113.5
 
-[connection signal="pressed" from="VBoxContainer/Keyboard" to="." method="keyboard"]
-[connection signal="pressed" from="VBoxContainer/Word" to="." method="vocal"]
-[connection signal="pressed" from="VBoxContainer/Sound" to="." method="sound"]
+[connection signal="pressed" from="VBoxContainer/Keyboard" to="." method="Keyboard"]
+[connection signal="pressed" from="VBoxContainer/Word" to="." method="Vocal"]
+[connection signal="pressed" from="VBoxContainer/Sound" to="." method="Sound"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="PauseMenu" method="Reveal"]

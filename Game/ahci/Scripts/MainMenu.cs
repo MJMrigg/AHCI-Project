@@ -4,22 +4,16 @@ using System.Diagnostics;
 
 public partial class MainMenu : Control
 {
-	public void play(){
-		GetTree().ChangeSceneToFile("uid://cuuimd7fyr2kj");
+	
+	public void Keyboard(){
+		GameMaster.Instance.StartKeyboard();
 	}
 	
-	public void keyboard(){
-		//Change mode in singleton
-		play();
+	public void Vocal(){
+		GameMaster.Instance.StartVocal();
 	}
 	
-	public void vocal(){
-		//Change mode in singleton
-		play();
-	}
-	
-	public void sound(){
-		//Change mode in singleton
-		play();
+	public void Sound(){
+		GameMaster.Instance.StartSound();
 	}
 }

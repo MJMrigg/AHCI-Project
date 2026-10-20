@@ -12,11 +12,12 @@ tile_map_data = PackedByteArray("AAAEAAQAAAACAAAAAAAEAAUAAAACAAEAAAAEAAYAAAACAAI
 tile_set = ExtResource("1_2llne")
 
 [node name="FireWizard" parent="." unique_id=502472075 instance=ExtResource("2_q12u6")]
-position = Vector2(405, 124)
+position = Vector2(324, 144)
 
 [node name="Door" parent="." unique_id=1476395476 instance=ExtResource("3_joc8x")]
 position = Vector2(466, 25)
 NextRoom = "uid://coxnfx5yfvfsq"
 
 [node name="WoodWall" parent="." unique_id=770465038 instance=ExtResource("4_jghel")]
-position = Vector2(260, 167)
+position = Vector2(254, 160)
+scale = Vector2(0.1, 0.3)

@@ -6,7 +6,7 @@
 size = Vector2(52, 116)
 
 [node name="WoodWall" type="StaticBody2D" unique_id=770465038]
-scale = Vector2(0.25, 1)
+scale = Vector2(0.2, 0.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1221795791]
 texture = ExtResource("1_7yl2x")

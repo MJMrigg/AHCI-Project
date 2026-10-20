@@ -8,6 +8,7 @@ radius = 44.0
 height = 92.0
 
 [node name="FireWizard" type="CharacterBody2D" unique_id=502472075 node_paths=PackedStringArray("MyPhyCol", "MySpriteAnim")]
+scale = Vector2(0.4, 0.4)
 script = ExtResource("1_8qsdx")
 MyPhyCol = NodePath("CollisionShape2D")
 MySpriteAnim = NodePath("AnimatedSprite2D")

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dntatb5lc7y22" path="res://Scenes/Box.tscn" id="2_2sg52"]
 [ext_resource type="PackedScene" uid="uid://n20gunrnwolj" path="res://Scenes/WoodWall.tscn" id="3_y6vx4"]
 [ext_resource type="PackedScene" uid="uid://digqj0dnavvln" path="res://Scenes/Chest.tscn" id="4_7tk33"]
+[ext_resource type="PackedScene" uid="uid://7hp6321xbtoj" path="res://Scenes/FireWizard.tscn" id="5_44apn"]
 
 [node name="Level3" type="Node2D" unique_id=181761747]
 
@@ -71,25 +72,30 @@ position = Vector2(33, 0)
 [node name="Walls" type="Node2D" parent="." unique_id=1958219258]
 
 [node name="WoodWall" parent="Walls" unique_id=770465038 instance=ExtResource("3_y6vx4")]
-position = Vector2(260, 430)
+position = Vector2(260, 424)
 
 [node name="WoodWall2" parent="Walls" unique_id=984014530 instance=ExtResource("3_y6vx4")]
 position = Vector2(546, 427)
 
 [node name="WoodWall3" parent="Walls" unique_id=823673388 instance=ExtResource("3_y6vx4")]
-position = Vector2(147, 434)
+position = Vector2(151, 426)
 
 [node name="WoodWall4" parent="Walls" unique_id=816311009 instance=ExtResource("3_y6vx4")]
 position = Vector2(128, 268)
 
 [node name="WoodWall5" parent="Walls" unique_id=979435714 instance=ExtResource("3_y6vx4")]
-position = Vector2(314, 260)
+position = Vector2(314, 267)
 
 [node name="WoodWall6" parent="Walls" unique_id=1378885397 instance=ExtResource("3_y6vx4")]
 position = Vector2(441, 93)
+scale = Vector2(0.2, 0.75)
 
 [node name="WoodWall7" parent="Walls" unique_id=863770586 instance=ExtResource("3_y6vx4")]
-position = Vector2(643, 90)
+position = Vector2(643, 92)
+scale = Vector2(0.2, 0.75)
 
 [node name="Chest" parent="." unique_id=446652914 instance=ExtResource("4_7tk33")]
 position = Vector2(537, 186)
+
+[node name="FireWizard" parent="." unique_id=502472075 instance=ExtResource("5_44apn")]
+position = Vector2(190.00002, 69.00001)

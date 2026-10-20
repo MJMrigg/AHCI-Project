@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dntatb5lc7y22" path="res://Scenes/Box.tscn" id="3_ms0wi"]
 [ext_resource type="PackedScene" uid="uid://n20gunrnwolj" path="res://Scenes/WoodWall.tscn" id="4_5awjf"]
 [ext_resource type="PackedScene" uid="uid://7hp6321xbtoj" path="res://Scenes/FireWizard.tscn" id="5_n3cqh"]
+[ext_resource type="Script" uid="uid://cgusylmpaowlb" path="res://Scripts/FollowCam.cs" id="6_jriq2"]
 
 [node name="Level2" type="Node2D" unique_id=482696922]
 
@@ -138,3 +139,8 @@ position = Vector2(761, 348)
 
 [node name="FireWizard" parent="." unique_id=502472075 instance=ExtResource("5_n3cqh")]
 position = Vector2(196, 121)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=166206247 node_paths=PackedStringArray("Target")]
+zoom = Vector2(5, 5)
+script = ExtResource("6_jriq2")
+Target = NodePath("../FireWizard")

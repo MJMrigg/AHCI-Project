@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dia8fipmy2f8h"]
+
+[ext_resource type="Script" uid="uid://d1rcgcg73nr2g" path="res://Scripts/Sign.cs" id="1_0ku8m"]
+[ext_resource type="Texture2D" uid="uid://jxtq0yf5v8oe" path="res://Assets/Sprites/UiElements/AudioSign2.png" id="1_0ljh3"]
+
+[node name="Sign" type="Sprite2D" unique_id=551355899]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_0ljh3")
+script = ExtResource("1_0ku8m")

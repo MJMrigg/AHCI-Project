@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c2qri5h00gym8"]
+
+[ext_resource type="Script" uid="uid://c8eu6i4f3tqfr" path="res://Scripts/GameMaster.cs" id="1_bawrs"]
+
+[node name="GameMaster" type="Node" unique_id=1463614252]
+script = ExtResource("1_bawrs")

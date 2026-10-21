@@ -45,3 +45,4 @@ class KeyPresser:
         for key in ["a", "s", "d", "w"]:
             if self.key_states[key]:
                 self.controller.press(key)
+        #pass # movement does not resume after unpausing; comment lines above

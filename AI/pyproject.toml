@@ -15,7 +15,7 @@ dependencies = [
     "numpy==2.5.4",
     "torch>=2.14.1",
     "librosa>=1.0.0",
-    "scipy-stubs~=1.18.1",
+    "scipy>=1.18.1",
 ]
 
 [project.scripts]

@@ -13,6 +13,9 @@ public partial class FireWizard : CharacterBody2D
 	[Export] private Node2D _fireball_spawnpoint_r;
 	[Export] private Node2D _fireball_spawnpoint_l;
 
+	[Export] private Area2D _windArea;
+	[Export] private float _wind_strength = 0;
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		base._UnhandledInput(@event);
@@ -25,15 +28,25 @@ public partial class FireWizard : CharacterBody2D
 		{
 			foreach(var area in _interactArea.GetOverlappingAreas())
 			{
-				// TODO: add once IInteractable is added
-				// if(area is IInteractable interactable){
-				// 	interactable.interact();
-				// }
+				if(area is IInteractable interactable){
+					interactable.Interact();
+				}
 			}
 		}
 		else if(@event.IsActionPressed("wind"))
 		{
+			// GD.Print("wind");
 			// TODO: wind effect
+			foreach(var body in _windArea.GetOverlappingBodies())
+			{
+				if(body.IsInGroup("BOX") && body is RigidBody2D rigidBody)
+				{
+					// GD.Print("BOX");
+					Vector2 direction_to_box = GlobalPosition.DirectionTo(rigidBody.GlobalPosition);
+					// rigidBody.ApplyImpulse(direction_to_box * _wind_strength);
+					rigidBody.CallDeferred(RigidBody2D.MethodName.ApplyCentralImpulse, direction_to_box * _wind_strength);
+				}
+			}
 		}
 	}
 

@@ -5,7 +5,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nqg3c"]
 size = Vector2(10, 10)
 
-[node name="Box" type="RigidBody2D" unique_id=1665384273]
+[node name="Box" type="RigidBody2D" unique_id=1665384273 groups=["BOX"]]
+collision_layer = 33
 physics_material_override = SubResource("PhysicsMaterial_nqg3c")
 gravity_scale = 0.0
 

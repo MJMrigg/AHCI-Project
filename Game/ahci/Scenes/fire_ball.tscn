@@ -26,10 +26,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qb2lp"]
-radius = 4.1231055
+radius = 1.4142135
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8156"]
-radius = 6.0
+radius = 2.5
 
 [node name="FireBall" type="CharacterBody2D" unique_id=1236929294]
 rotation = 3.1415927
@@ -41,6 +41,7 @@ _speed = 300.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2129508777]
 texture_filter = 1
+scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_vxs2v")
 autoplay = "default"
 frame_progress = 0.9190689

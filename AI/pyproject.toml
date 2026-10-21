@@ -1,6 +1,6 @@
 [project]
 name = "ai"
-version = "0.1.0"
+version = "0.13.4"
 description = "AI to read microphone and identify speech and sounds for Godot game"
 readme = "README.md"
 authors = [

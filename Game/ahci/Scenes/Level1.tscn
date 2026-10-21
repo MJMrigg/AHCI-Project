@@ -41,7 +41,60 @@ Target = NodePath("../FireWizard")
 visible = false
 
 [node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("7_6ll4n")]
+visible = false
 
 [node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("8_kylad")]
-position = Vector2(371, 145)
+position = Vector2(72, 120)
+TranslatedKeyboard = "Press \"t\" to translate weird text like this...
+
+Press and hold W to move up. Press and hold S to move down. Press and hold A to move left. Press and hold D to move right. Press Escape to pause the game."
+UntranslatedKeyboard = "Press \"t\" to translate weird text like this...
+
+Bnacc yht rumt F du suja ib. Bnacc yht rumt C du suja tufh. Bnacc yht rumt Y du suja mavd. Bnacc yht rumt T du suja nekrd. Bnacc Aclyba du byica dra kysa."
+TranslatedVocal = "Say \"translate\" to translate weird text like this...
+
+Say \"Up\" to start moving up. Say \"Up\" again to stop moving up. Say \"Down\" to start moving down. Say \"Down\" again to stop moving down. Say \"Right\" to start moving right. Say \"Right\" again to stop moving right. Say \"Left\" to start moving left. Say \"Left\" again to stop moving left. Say \"Pause\" to pause the game. Say \"Unpause\" to unpause the game. Say \"Quit\" to quit the game."
+UntranslatedVocal = "Say \"translate\" to translate weird text like this...
+
+Cyo \"Ib\" du cdynd sujehk ib. Cyo \"Ib\" ykyeh du cdub sujehk ib. Cyo \"Tufh\" du cdynd sujehk tufh. Cyo \"Tufh\" ykyeh du cdub sujehk tufh. Cyo \"Nekrd\" du cdynd sujehk nekrd. Cyo \"Nekrd\" ykyeh du cdub sujehk nekrd. Cyo \"Mavd\" du cdynd sujehk mavd. Cyo \"Mavd\" ykyeh du cdub sujehk mavd. Cyo \"Byica\" du byica dra kysa. Cyo \"Ihbyica\" du ihbyica dra kysa. Cyo \"Xied\" du xied dra kysa."
+TranslatedSound = "Click your tongue to translate weird text like this...
+
+Hum in a high pitch to start moving up. Hum in a high pitch again to stop moving up. Hum in a low pitch to start moving down. Hum in a low pitch again to stop moving down. Whistle in a high pitch to start moving left. Whistle in a high pitch again to stop moving left. Hum in a low pitch to start moving right. Hum in a low pitch again to stop moving right. Snap your fingers to pause the game. Snap your fingers twice to quit the game."
+UntranslatedSound = "Click your tongue to translate weird text like this...
+
+Ris eh y rekr bedlr du cdynd sujehk ib. Ris eh y rekr bedlr ykyeh du cdub sujehk ib. Ris eh y muf bedlr du cdynd sujehk tufh. Ris eh y muf bedlr ykyeh du cdub sujehk tufh. Frecdma eh y rekr bedlr du cdynd sujehk mavd. Frecdma eh y rekr bedlr ykyeh du cdub sujehk mavd. Ris eh y muf bedlr du cdynd sujehk nekrd. Ris eh y muf bedlr ykyeh du cdub sujehk nekrd. Chyb ouin vehkanc du byica dra kysa. Chyb ouin vehkanc dfela du xied dra kysa.
+"
+_bookMenu = NodePath("../CanvasLayer/BookMenu")
+
+[node name="Book2" parent="." unique_id=1292408706 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("8_kylad")]
+position = Vector2(124, 160)
+TranslatedKeyboard = "Press \"f\" to shoot fireballs to destroy the wooden walls."
+UntranslatedKeyboard = "Bnacc \"v\" du cruud venapymmc du tacdnuo dra fuutah fymmc."
+TranslatedVocal = "Say \"ember\" to shoot fireballs to destroy the wooden walls."
+UntranslatedVocal = "Cyo \"aspan\" du cruud venapymmc du tacdnuo dra fuutah fymmc."
+TranslatedSound = "Clap your hands to shoot a fireball to destroy the wooden walls."
+UntranslatedSound = "Lmyb ouin ryhtc du cruud venapymmc du tacdnuo dra fuutah fymmc."
+_bookMenu = NodePath("../CanvasLayer/BookMenu")
+
+[node name="Book3" parent="." unique_id=1118319683 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("8_kylad")]
+position = Vector2(279, 160)
+TranslatedKeyboard = "Press \"t\" to translate weird text like this...
+
+Press and hold W to move up. Press and hold S to move down. Press and hold A to move left. Press and hold D to move right. Press Escape to pause the game."
+UntranslatedKeyboard = "Press \"t\" to translate weird text like this...
+
+Bnacc yht rumt F du suja ib. Bnacc yht rumt C du suja tufh. Bnacc yht rumt Y du suja mavd. Bnacc yht rumt T du suja nekrd. Bnacc Aclyba du byica dra kysa."
+TranslatedVocal = "Say \"translate\" to translate weird text like this...
+
+Say \"Up\" to start moving up. Say \"Up\" again to stop moving up. Say \"Down\" to start moving down. Say \"Down\" again to stop moving down. Say \"Right\" to start moving right. Say \"Right\" again to stop moving right. Say \"Left\" to start moving left. Say \"Left\" again to stop moving left. Say \"Pause\" to pause the game. Say \"Unpause\" to unpause the game. Say \"Quit\" to quit the game."
+UntranslatedVocal = "Say \"translate\" to translate weird text like this...
+
+Cyo \"Ib\" du cdynd sujehk ib. Cyo \"Ib\" ykyeh du cdub sujehk ib. Cyo \"Tufh\" du cdynd sujehk tufh. Cyo \"Tufh\" ykyeh du cdub sujehk tufh. Cyo \"Nekrd\" du cdynd sujehk nekrd. Cyo \"Nekrd\" ykyeh du cdub sujehk nekrd. Cyo \"Mavd\" du cdynd sujehk mavd. Cyo \"Mavd\" ykyeh du cdub sujehk mavd. Cyo \"Byica\" du byica dra kysa. Cyo \"Ihbyica\" du ihbyica dra kysa. Cyo \"Xied\" du xied dra kysa."
+TranslatedSound = "Click your tongue to translate weird text like this...
+
+Hum in a high pitch to start moving up. Hum in a high pitch again to stop moving up. Hum in a low pitch to start moving down. Hum in a low pitch again to stop moving down. Whistle in a high pitch to start moving left. Whistle in a high pitch again to stop moving left. Hum in a low pitch to start moving right. Hum in a low pitch again to stop moving right. Snap your fingers to pause the game. Snap your fingers twice to quit the game."
+UntranslatedSound = "Click your tongue to translate weird text like this...
+
+Ris eh y rekr bedlr du cdynd sujehk ib. Ris eh y rekr bedlr ykyeh du cdub sujehk ib. Ris eh y muf bedlr du cdynd sujehk tufh. Ris eh y muf bedlr ykyeh du cdub sujehk tufh. Frecdma eh y rekr bedlr du cdynd sujehk mavd. Frecdma eh y rekr bedlr ykyeh du cdub sujehk mavd. Ris eh y muf bedlr du cdynd sujehk nekrd. Ris eh y muf bedlr ykyeh du cdub sujehk nekrd. Chyb ouin vehkanc du byica dra kysa. Chyb ouin vehkanc dfela du xied dra kysa.
+"
 _bookMenu = NodePath("../CanvasLayer/BookMenu")

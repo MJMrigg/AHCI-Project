@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://ci18fm7yav4ua" path="res://Assets/Sprites/Foreground/Book.png" id="1_uok8s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uok8s"]
-radius = 54.08327
 
 [node name="Book" type="Node2D" unique_id=1244758122]
 script = ExtResource("1_85ged")
+_startOpen = false
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=972635340]
 scale = Vector2(0.2, 0.2)

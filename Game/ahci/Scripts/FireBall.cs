@@ -5,6 +5,9 @@ public partial class FireBall : CharacterBody2D
 {
 	[Export]
 	private float _speed;
+	
+	[Export]
+	public AudioStreamPlayer2D HitSound;
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -25,7 +28,11 @@ public partial class FireBall : CharacterBody2D
 		{
 			body.CallDeferred(MethodName.QueueFree);
 		}
-
+		
+		HitSound.Play();
+	}
+	
+	public void OnSoundFinished(){
 		CallDeferred(MethodName.QueueFree);
 	}
 }

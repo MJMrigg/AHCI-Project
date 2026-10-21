@@ -39,7 +39,8 @@ class KeyPresser:
     
     def pause(self):
         for key in ["a", "s", "d", "w"]:
-            self.release(key)
+            if self.key_states[key]:
+                self.release(key)
     
     def unpause(self):
         pass # movement does not resume after unpausing

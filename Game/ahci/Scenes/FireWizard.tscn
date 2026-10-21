@@ -2,25 +2,67 @@
 
 [ext_resource type="Script" uid="uid://deia0te7xcs6m" path="res://Scripts/FireWizard.cs" id="1_8qsdx"]
 [ext_resource type="SpriteFrames" uid="uid://dm1dvdwosgq5p" path="res://Assets/Sprites/Fire Wizard/fwSpriteFrames.tres" id="1_gs6ox"]
+[ext_resource type="PackedScene" uid="uid://co66n1oe0s763" path="res://Scenes/fire_ball.tscn" id="2_5cwsp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gs6ox"]
-radius = 44.0
-height = 92.0
+radius = 12.0
 
-[node name="FireWizard" type="CharacterBody2D" unique_id=502472075 node_paths=PackedStringArray("MyPhyCol", "MySpriteAnim")]
-scale = Vector2(0.4, 0.4)
+[sub_resource type="CircleShape2D" id="CircleShape2D_8qsdx"]
+radius = 32.06244
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5cwsp"]
+radius = 50.0
+
+[node name="FireWizard" type="CharacterBody2D" unique_id=502472075 node_paths=PackedStringArray("MyPhyCol", "MySpriteAnim", "_interactArea", "_fireball_spawnpoint_r", "_fireball_spawnpoint_l", "_windArea")]
+collision_layer = 2
+collision_mask = 9
+motion_mode = 1
 script = ExtResource("1_8qsdx")
-MyPhyCol = NodePath("CollisionShape2D")
+MyPhyCol = NodePath("PlayerShape")
 MySpriteAnim = NodePath("AnimatedSprite2D")
+Speed = 100
+_interactArea = NodePath("InteractArea")
+_fireball_scene = ExtResource("2_5cwsp")
+_fireball_spawnpoint_r = NodePath("Right")
+_fireball_spawnpoint_l = NodePath("Left")
+_windArea = NodePath("WindArea")
+_wind_strength = 50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=336580289]
 texture_filter = 1
-position = Vector2(1, 0)
+scale = Vector2(0.4, 0.4)
 sprite_frames = ExtResource("1_gs6ox")
-animation = &"Idle"
+animation = &"Fireball"
 autoplay = "Idle"
-frame_progress = 0.7179166
+frame = 7
+frame_progress = 1.0
+offset = Vector2(0, -32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1865974566]
+[node name="PlayerShape" type="CollisionShape2D" parent="." unique_id=1865974566]
 position = Vector2(-1, 1)
 shape = SubResource("CapsuleShape2D_gs6ox")
+
+[node name="InteractArea" type="Area2D" parent="." unique_id=206064503]
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+
+[node name="InteractShape" type="CollisionShape2D" parent="InteractArea" unique_id=1271731542]
+shape = SubResource("CircleShape2D_8qsdx")
+
+[node name="WindArea" type="Area2D" parent="." unique_id=1374851180]
+collision_mask = 33
+monitorable = false
+
+[node name="WindShape" type="CollisionShape2D" parent="WindArea" unique_id=1690204917]
+shape = SubResource("CircleShape2D_5cwsp")
+
+[node name="Right" type="Marker2D" parent="." unique_id=1360825716]
+position = Vector2(11, -6.5)
+gizmo_extents = 25.0
+
+[node name="Left" type="Marker2D" parent="." unique_id=1395171272]
+position = Vector2(-11, -6.5)
+gizmo_extents = 25.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]

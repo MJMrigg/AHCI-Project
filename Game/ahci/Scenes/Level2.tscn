@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://7hp6321xbtoj" path="res://Scenes/FireWizard.tscn" id="5_n3cqh"]
 [ext_resource type="Script" uid="uid://cgusylmpaowlb" path="res://Scripts/FollowCam.cs" id="6_jriq2"]
 [ext_resource type="PackedScene" uid="uid://bt83eojgmoqm0" path="res://Scenes/PauseMenu.tscn" id="7_ehjmi"]
+[ext_resource type="PackedScene" uid="uid://b8k3snjwc7idl" path="res://Scenes/BookMenu.tscn" id="8_70df5"]
+[ext_resource type="PackedScene" uid="uid://bvl28rlo4x1ed" path="res://Scenes/Book.tscn" id="9_ejprb"]
 
 [node name="Level2" type="Node2D" unique_id=482696922]
 
@@ -150,3 +152,10 @@ Target = NodePath("../FireWizard")
 
 [node name="PauseMenu" parent="CanvasLayer" unique_id=2096320971 instance=ExtResource("7_ehjmi")]
 visible = false
+
+[node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("8_70df5")]
+
+[node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("9_ejprb")]
+position = Vector2(111, 126)
+_bookMenu = NodePath("../CanvasLayer/BookMenu")
+_startOpen = false

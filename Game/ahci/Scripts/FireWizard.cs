@@ -5,6 +5,7 @@ public partial class FireWizard : CharacterBody2D
 {
 	[Export] public CollisionShape2D MyPhyCol; // Don't know if this will be needed yet. Here just in case - David T
 	[Export] public AnimatedSprite2D MySpriteAnim;
+	[Export] public AudioStreamPlayer2D FireballSound;
 	
 	[Export] public int Speed = 200; //How fast the character should move
 
@@ -28,7 +29,7 @@ public partial class FireWizard : CharacterBody2D
 		{
 			foreach(var area in _interactArea.GetOverlappingAreas())
 			{
-				if(area is IInteractable interactable){
+				if(area.Owner is IInteractable interactable){
 					interactable.Interact();
 				}
 			}
@@ -105,6 +106,7 @@ public partial class FireWizard : CharacterBody2D
 		// so idle and walk won't trigger this
 		if(MySpriteAnim.Animation == "Fireball"){
 			ShootFireball();
+			FireballSound.Play();
 		}
 		
 		MySpriteAnim.Play("Idle");

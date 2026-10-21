@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c2fueiclrmsrs" path="res://Assets/Sprites/Fire Wizard/Charge.png" id="1_qb2lp"]
 [ext_resource type="Script" uid="uid://cqypy0mhl0ihp" path="res://Scripts/FireBall.cs" id="1_x8156"]
+[ext_resource type="AudioStream" uid="uid://cjruk2sgemna0" path="res://Assets/Audio/Fireball_Hit.wav" id="3_vxs2v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qb2lp"]
 atlas = ExtResource("1_qb2lp")
@@ -31,13 +32,14 @@ radius = 1.4142135
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8156"]
 radius = 2.5
 
-[node name="FireBall" type="CharacterBody2D" unique_id=1236929294]
+[node name="FireBall" type="CharacterBody2D" unique_id=1236929294 node_paths=PackedStringArray("HitSound")]
 rotation = 3.1415927
 collision_layer = 4
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_x8156")
 _speed = 300.0
+HitSound = NodePath("HitSound")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2129508777]
 texture_filter = 1
@@ -57,4 +59,8 @@ collision_mask = 9
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1332300448]
 shape = SubResource("CircleShape2D_x8156")
 
+[node name="HitSound" type="AudioStreamPlayer2D" parent="." unique_id=356833026]
+stream = ExtResource("3_vxs2v")
+
 [connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]
+[connection signal="finished" from="HitSound" to="." method="OnSoundFinished"]

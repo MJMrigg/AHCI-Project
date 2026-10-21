@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://deia0te7xcs6m" path="res://Scripts/FireWizard.cs" id="1_8qsdx"]
 [ext_resource type="SpriteFrames" uid="uid://dm1dvdwosgq5p" path="res://Assets/Sprites/Fire Wizard/fwSpriteFrames.tres" id="1_gs6ox"]
 [ext_resource type="PackedScene" uid="uid://co66n1oe0s763" path="res://Scenes/fire_ball.tscn" id="2_5cwsp"]
+[ext_resource type="AudioStream" uid="uid://dqjg1dfsgke8n" path="res://Assets/Audio/Fireball_Lauch.wav" id="4_pk88o"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gs6ox"]
 radius = 12.0
@@ -13,13 +14,14 @@ radius = 32.06244
 [sub_resource type="CircleShape2D" id="CircleShape2D_5cwsp"]
 radius = 50.0
 
-[node name="FireWizard" type="CharacterBody2D" unique_id=502472075 node_paths=PackedStringArray("MyPhyCol", "MySpriteAnim", "_interactArea", "_fireball_spawnpoint_r", "_fireball_spawnpoint_l", "_windArea")]
+[node name="FireWizard" type="CharacterBody2D" unique_id=502472075 node_paths=PackedStringArray("MyPhyCol", "MySpriteAnim", "FireballSound", "_interactArea", "_fireball_spawnpoint_r", "_fireball_spawnpoint_l", "_windArea")]
 collision_layer = 2
 collision_mask = 9
 motion_mode = 1
 script = ExtResource("1_8qsdx")
 MyPhyCol = NodePath("PlayerShape")
 MySpriteAnim = NodePath("AnimatedSprite2D")
+FireballSound = NodePath("FireballSound")
 Speed = 100
 _interactArea = NodePath("InteractArea")
 _fireball_scene = ExtResource("2_5cwsp")
@@ -64,5 +66,8 @@ gizmo_extents = 25.0
 [node name="Left" type="Marker2D" parent="." unique_id=1395171272]
 position = Vector2(-11, -6.5)
 gizmo_extents = 25.0
+
+[node name="FireballSound" type="AudioStreamPlayer2D" parent="." unique_id=342654437]
+stream = ExtResource("4_pk88o")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="OnAnimationFinished"]

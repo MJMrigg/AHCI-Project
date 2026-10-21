@@ -118,5 +118,10 @@ visible = false
 
 [node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("9_m7vvj")]
 position = Vector2(146, 71)
+TranslatedKeyboard = "Find the chest to win the game!"
+UntranslatedKeyboard = "Veht dra lracd du feh dra kysa!"
+TranslatedVocal = "Find the chest to win the game!"
+UntranslatedVocal = "Veht dra lracd du feh dra kysa!"
+TranslatedSound = "Find the chest to win the game!"
+UntranslatedSound = "Veht dra lracd du feh dra kysa!"
 _bookMenu = NodePath("../CanvasLayer/BookMenu")
-_startOpen = false

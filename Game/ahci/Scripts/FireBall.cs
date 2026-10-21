@@ -30,9 +30,10 @@ public partial class FireBall : CharacterBody2D
 		}
 		
 		HitSound.Play();
+		CallDeferred(MethodName.QueueFree);
 	}
 	
 	public void OnSoundFinished(){
-		CallDeferred(MethodName.QueueFree);
+		QueueFree();
 	}
 }

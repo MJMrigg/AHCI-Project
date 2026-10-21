@@ -20,6 +20,9 @@ public partial class Book : Node2D, IInteractable
 	
 	[Export]
 	private bool _startOpen = true;
+	
+	[Export]
+	public int BookNumber = 0;
 
 	public string Translated
 	{

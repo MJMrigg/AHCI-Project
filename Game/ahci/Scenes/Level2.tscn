@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cgusylmpaowlb" path="res://Scripts/FollowCam.cs" id="6_jriq2"]
 [ext_resource type="PackedScene" uid="uid://bt83eojgmoqm0" path="res://Scenes/PauseMenu.tscn" id="7_ehjmi"]
 [ext_resource type="PackedScene" uid="uid://b8k3snjwc7idl" path="res://Scenes/BookMenu.tscn" id="8_70df5"]
+[ext_resource type="PackedScene" uid="uid://cl14tvob273na" path="res://Scenes/Hud.tscn" id="8_ejprb"]
 [ext_resource type="PackedScene" uid="uid://bvl28rlo4x1ed" path="res://Scenes/Book.tscn" id="9_ejprb"]
 
 [node name="Level2" type="Node2D" unique_id=482696922]
@@ -150,10 +151,12 @@ Target = NodePath("../FireWizard")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=611387493]
 
-[node name="PauseMenu" parent="CanvasLayer" unique_id=2096320971 instance=ExtResource("7_ehjmi")]
-visible = false
+[node name="Hud" parent="CanvasLayer" unique_id=1012713006 instance=ExtResource("8_ejprb")]
 
 [node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("8_70df5")]
+
+[node name="PauseMenu" parent="CanvasLayer" unique_id=2096320971 instance=ExtResource("7_ehjmi")]
+visible = false
 
 [node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("9_ejprb")]
 position = Vector2(111, 126)
@@ -164,3 +167,6 @@ UntranslatedVocal = "Cyo \"feht\" du pmuf dra puqac uid uv dra fyo."
 TranslatedSound = "Blow air to blow boxes out of the way."
 UntranslatedSound = "Pmuf yen du pmuf puqac uid uv dra fyo."
 _bookMenu = NodePath("../CanvasLayer/BookMenu")
+BookNumber = 2
+
+[connection signal="Read" from="CanvasLayer/BookMenu" to="CanvasLayer/Hud" method="Reveal"]

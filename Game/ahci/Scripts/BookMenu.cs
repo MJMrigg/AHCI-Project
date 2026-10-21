@@ -51,6 +51,8 @@ public partial class BookMenu : Control
 
 	private Label _label;
 	private Book _activeBook;
+	[Signal]
+	public delegate void ReadEventHandler(int Book);
 
 	public override void _Ready()
 	{
@@ -70,7 +72,13 @@ public partial class BookMenu : Control
 
 	public void Translate()
 	{
+		if(_activeBook == null)
+		{
+			return;
+		}
 		_label.Text = _activeBook.Translated + TranslatedInstructions;
+		GameMaster.Instance.Book = _activeBook.BookNumber;
+		EmitSignal(SignalName.Read, _activeBook.BookNumber);
 	}
 
 	public bool IsOpen(Book book)

@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b8k3snjwc7idl" path="res://Scenes/BookMenu.tscn" id="8_p6pjf"]
 [ext_resource type="PackedScene" uid="uid://b455hcaotpfrw" path="res://Scenes/EndMenu.tscn" id="9_kg31f"]
 [ext_resource type="PackedScene" uid="uid://bvl28rlo4x1ed" path="res://Scenes/Book.tscn" id="9_m7vvj"]
+[ext_resource type="PackedScene" uid="uid://cl14tvob273na" path="res://Scenes/Hud.tscn" id="9_ncjpd"]
 
 [node name="Level3" type="Node2D" unique_id=181761747]
 
@@ -113,10 +114,14 @@ Target = NodePath("../FireWizard")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1922681916]
 
+[node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("8_p6pjf")]
+
+[node name="Hud" parent="CanvasLayer" unique_id=1012713006 instance=ExtResource("9_ncjpd")]
+
 [node name="PauseMenu" parent="CanvasLayer" unique_id=2096320971 instance=ExtResource("7_43mlh")]
 visible = false
-
-[node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("8_p6pjf")]
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="EndMenu" parent="CanvasLayer" unique_id=1517219942 instance=ExtResource("9_kg31f")]
 

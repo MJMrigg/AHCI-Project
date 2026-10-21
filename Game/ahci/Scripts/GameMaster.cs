@@ -16,6 +16,8 @@ public partial class GameMaster : Node
 	public double StartTime = 0.0f;
 	public double EndTime = 0.0f;
 	public double TotalTime = 0.0f;
+	
+	public int Book = -1;
 
 	public override void _Ready()
 	{
@@ -48,6 +50,7 @@ public partial class GameMaster : Node
 	public void BeginGame()
 	{
 		PlayerWon = false;
+		Book = -1;
 		GetTree().ChangeSceneToFile(Level1);
 		StartTime = (double)Time.GetTicksMsec() / 1000.0;
 	}

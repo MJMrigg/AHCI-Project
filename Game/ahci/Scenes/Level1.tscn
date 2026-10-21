@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cgusylmpaowlb" path="res://Scripts/FollowCam.cs" id="5_slnnj"]
 [ext_resource type="PackedScene" uid="uid://bt83eojgmoqm0" path="res://Scenes/PauseMenu.tscn" id="6_t3or0"]
 [ext_resource type="PackedScene" uid="uid://b8k3snjwc7idl" path="res://Scenes/BookMenu.tscn" id="7_6ll4n"]
+[ext_resource type="PackedScene" uid="uid://cl14tvob273na" path="res://Scenes/Hud.tscn" id="7_ug0sv"]
 [ext_resource type="PackedScene" uid="uid://bvl28rlo4x1ed" path="res://Scenes/Book.tscn" id="8_kylad"]
 [ext_resource type="PackedScene" uid="uid://dia8fipmy2f8h" path="res://Scenes/Sign.tscn" id="9_kylad"]
 [ext_resource type="Texture2D" uid="uid://t56ro45n51hg" path="res://Assets/Sprites/UiElements/SoundSign.png" id="10_rpty4"]
@@ -46,6 +47,8 @@ Target = NodePath("../FireWizard")
 
 [node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("7_6ll4n")]
 
+[node name="Hud" parent="CanvasLayer" unique_id=1012713006 instance=ExtResource("7_ug0sv")]
+
 [node name="PauseMenu" parent="CanvasLayer" unique_id=2096320971 instance=ExtResource("6_t3or0")]
 visible = false
 
@@ -81,6 +84,7 @@ UntranslatedVocal = "Cyo \"aspan\" du cruud venapymmc du tacdnuo dra fuutah fymm
 TranslatedSound = "Clap your hands to shoot a fireball to destroy the wooden walls."
 UntranslatedSound = "Lmyb ouin ryhtc du cruud venapymmc du tacdnuo dra fuutah fymmc."
 _bookMenu = NodePath("../CanvasLayer/BookMenu")
+BookNumber = 1
 
 [node name="Book3" parent="." unique_id=1118319683 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("8_kylad")]
 position = Vector2(279, 160)
@@ -91,6 +95,7 @@ UntranslatedVocal = "Ku ehdu dra tuun du ku du dra haqd majam."
 TranslatedSound = "Go into the door to go to the next level."
 UntranslatedSound = "Ku ehdu dra tuun du ku du dra haqd majam."
 _bookMenu = NodePath("../CanvasLayer/BookMenu")
+BookNumber = 1
 
 [node name="Sign" parent="." unique_id=551355899 instance=ExtResource("9_kylad")]
 position = Vector2(57.999996, 86.99999)
@@ -103,3 +108,5 @@ position = Vector2(80.99999, 87)
 SoundTexture = ExtResource("13_ubfni")
 VocalTexture = ExtResource("14_ug0sv")
 KeyboardTexture = ExtResource("15_0wsr5")
+
+[connection signal="Read" from="CanvasLayer/BookMenu" to="CanvasLayer/Hud" method="Reveal"]

@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cgusylmpaowlb" path="res://Scripts/FollowCam.cs" id="6_084pi"]
 [ext_resource type="PackedScene" uid="uid://bt83eojgmoqm0" path="res://Scenes/PauseMenu.tscn" id="7_43mlh"]
 [ext_resource type="PackedScene" uid="uid://b8k3snjwc7idl" path="res://Scenes/BookMenu.tscn" id="8_p6pjf"]
+[ext_resource type="PackedScene" uid="uid://b455hcaotpfrw" path="res://Scenes/EndMenu.tscn" id="9_kg31f"]
 [ext_resource type="PackedScene" uid="uid://bvl28rlo4x1ed" path="res://Scenes/Book.tscn" id="9_m7vvj"]
 
 [node name="Level3" type="Node2D" unique_id=181761747]
@@ -98,8 +99,9 @@ scale = Vector2(0.2, 0.75)
 position = Vector2(643, 92)
 scale = Vector2(0.2, 0.75)
 
-[node name="Chest" parent="." unique_id=446652914 instance=ExtResource("4_7tk33")]
+[node name="Chest" parent="." unique_id=446652914 node_paths=PackedStringArray("endMenu") instance=ExtResource("4_7tk33")]
 position = Vector2(537, 186)
+endMenu = NodePath("../CanvasLayer/EndMenu")
 
 [node name="FireWizard" parent="." unique_id=502472075 instance=ExtResource("5_44apn")]
 position = Vector2(190.00002, 69.00001)
@@ -115,6 +117,8 @@ Target = NodePath("../FireWizard")
 visible = false
 
 [node name="BookMenu" parent="CanvasLayer" unique_id=884143370 instance=ExtResource("8_p6pjf")]
+
+[node name="EndMenu" parent="CanvasLayer" unique_id=1517219942 instance=ExtResource("9_kg31f")]
 
 [node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("9_m7vvj")]
 position = Vector2(146, 71)

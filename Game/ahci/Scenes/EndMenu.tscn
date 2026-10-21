@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://b455hcaotpfrw"]
+
+[ext_resource type="Script" uid="uid://c5wq8fs7d6yl5" path="res://Scripts/EndMenu.cs" id="1_rxc37"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2eowd"]
+bg_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lj4oq"]
+bg_color = Color(0, 0.64369816, 3.85046e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwhev"]
+bg_color = Color(0, 0.6431373, 0, 1)
+
+[node name="EndMenu" type="ColorRect" unique_id=2096320971]
+visible = false
+custom_minimum_size = Vector2(462, 227)
+anchors_preset = -1
+anchor_left = 0.29500002
+anchor_top = 0.30400002
+anchor_right = 0.694
+anchor_bottom = 0.65400004
+offset_left = -1.8400269
+offset_top = 0.007980347
+offset_right = 0.5119629
+offset_bottom = 0.2079773
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rxc37")
+
+[node name="Label" type="Label" parent="." unique_id=682198116]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.15900001
+anchor_right = 1.0
+anchor_bottom = 0.46300003
+offset_top = -0.09300232
+offset_bottom = -0.101005554
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "YOU WIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=341864390]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.485
+anchor_right = 1.0
+anchor_bottom = 0.82400006
+offset_top = -0.09500122
+offset_bottom = -0.04801941
+grow_horizontal = 2
+theme_override_constants/separation = 80
+alignment = 1
+
+[node name="Yes" type="Button" parent="HBoxContainer" unique_id=1813813335]
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_2eowd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lj4oq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qwhev")
+text = "Exit"
+
+[connection signal="pressed" from="HBoxContainer/Yes" to="." method="End"]

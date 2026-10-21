@@ -28,7 +28,7 @@ public partial class FireWizard : CharacterBody2D
 		{
 			foreach(var area in _interactArea.GetOverlappingAreas())
 			{
-				if(area is IInteractable interactable){
+				if(area.Owner is IInteractable interactable){
 					interactable.Interact();
 				}
 			}

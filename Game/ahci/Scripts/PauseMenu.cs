@@ -17,7 +17,8 @@ public partial class PauseMenu : ColorRect
 		}
 	}
 	
-	public void Yes(){
+	public void Yes()
+	{
 		if(GetTree().GetCurrentScene().Name == "MainMenu")
 		{
 			GetTree().Quit();
@@ -25,11 +26,13 @@ public partial class PauseMenu : ColorRect
 		GetTree().ChangeSceneToFile("uid://dcsoxuw8fc8fk");
 	}
 	
-	public void No(){
+	public void No()
+	{
 		Hide();
 	}
 	
-	public void Reveal(){
+	public void Reveal()
+	{
 		if(Visible)
 		{
 			Hide();

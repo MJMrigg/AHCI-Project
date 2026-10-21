@@ -27,6 +27,11 @@ window/stretch/aspect="expand"
 
 project/assembly_name="AHCI"
 
+[global_group]
+
+DESTRUCTIBLE=""
+BOX=""
+
 [gui]
 
 common/auto_focus_strategy=1
@@ -95,6 +100,7 @@ joypads/ignore_joypad_on_unfocused_application=true
 2d_physics/layer_3="Fireball"
 2d_physics/layer_4="Destructible"
 2d_physics/layer_5="Interactable"
+2d_physics/layer_6="Pushable"
 
 [physics]
 
@@ -102,5 +108,6 @@ joypads/ignore_joypad_on_unfocused_application=true
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 lights_and_shadows/multi_bounce_occlusion/enabled=true

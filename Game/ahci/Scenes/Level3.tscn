@@ -119,3 +119,4 @@ visible = false
 [node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("9_m7vvj")]
 position = Vector2(146, 71)
 _bookMenu = NodePath("../CanvasLayer/BookMenu")
+_startOpen = false

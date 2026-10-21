@@ -158,3 +158,4 @@ visible = false
 [node name="Book" parent="." unique_id=1244758122 node_paths=PackedStringArray("_bookMenu") instance=ExtResource("9_ejprb")]
 position = Vector2(111, 126)
 _bookMenu = NodePath("../CanvasLayer/BookMenu")
+_startOpen = false

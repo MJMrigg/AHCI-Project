@@ -17,6 +17,9 @@ public partial class Book : Node2D, IInteractable
 
 	[Export]
 	private BookMenu _bookMenu;
+	
+	[Export]
+	private bool _startOpen = true;
 
 	public string Translated
 	{
@@ -61,7 +64,7 @@ public partial class Book : Node2D, IInteractable
 		{
 			GD.PushError("Book " + Name + " requires _bookMenu to be set");
 		}
-		else if (!_bookMenu.IsOpen(this))
+		else if (_startOpen && !_bookMenu.IsOpen(this))
 		{
 			this.Interact();
 		}

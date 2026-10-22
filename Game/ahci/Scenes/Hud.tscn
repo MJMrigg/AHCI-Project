@@ -45,8 +45,8 @@ Press E to open/close books
 Press T to translate books
 Press Esc to pause/unpause
 Press Q to quit when paused"
-VocalText = "Say \"Up\" to move Up
-Say \"Down\" to move Down
+VocalText = "Say \"High\" to move Up
+Say \"Low\" to move Down
 Say \"Left\" to move Left
 Say \"Right\" to move Right
 Say \"Open/Close\" to open/close books

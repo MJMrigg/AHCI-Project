@@ -1,5 +1,6 @@
 from collections import defaultdict
 from pynput.keyboard import Key, KeyCode, Controller
+import threading
 
 class KeyPresser:
     def __init__(self):
@@ -22,12 +23,8 @@ class KeyPresser:
     def toggle(self, key: str | Key | KeyCode) -> None:
         resolved = self.controller._resolve(key)
 
-        if self.key_states[resolved]:
-            # if pressed then release
-            self.release(key)
-        else:
-            # if not pressed then press
-            self.press(key)
+        self.press(key)
+        threading.Timer(0.25, self.release, args=(key,)).start()
     
     def press_once(self, key: str| Key | KeyCode) -> None:
         self.press(key)

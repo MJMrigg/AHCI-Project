@@ -13,12 +13,12 @@ for text in model.listen_continuously(phrase_time_limit=2):
         continue
     
     # Remove all punctunation and split the text into words
-    text = text.lower().replace('.','').replace(',','').replace('!','').replace('?','').replace('[','').replace(']','')
+    text = text.lower().replace('.','').replace(',','').replace('!','').replace('?','').replace('[','').replace(']','').replace('(','').replace(')','')
     words = text.split(' ')
     
     # Go through the words and run any commands found
     # Some commands have multiple words for speech impendements, accents, or in case the AI misinterprets the word
-    if "up" in words or "uh" in words or "bye" in words or "ah" in words or "off" in words:
+    if "up" in words or "uh" in words or "bye" in words or "ah" in words or "off" in words or ("dog" in words and "barks" in words):
         key_presser.release("s")
         key_presser.toggle("w")
         print("w key input")
@@ -33,7 +33,7 @@ for text in model.listen_continuously(phrase_time_limit=2):
         key_presser.release("d")
         key_presser.toggle("a")
         print("a key input")
-    if "pause" in words or "paws" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words:
+    if "pause" in words or "paws" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words or "pods" in words or "unpods" in words or "unpires" in words:
         key_presser.toggle(esc)
         paused = not paused
         if paused:
@@ -41,7 +41,7 @@ for text in model.listen_continuously(phrase_time_limit=2):
         else:
             key_presser.unpause()
         print("esc key input")
-    if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words:
+    if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words or "member" in words :
         key_presser.press_once("f")
         print("f key input")
     if "gust" in words or "guts" in words or "wind" in words or "winned" in words or "gus" in words or "gussed" in words or "gas" in words or "guest" in words or "dust" in words:

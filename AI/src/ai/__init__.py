@@ -35,13 +35,11 @@ for text in model.listen_continuously(phrase_time_limit=1):
         key_presser.toggle("a")
         #print("a key input")
     if "pause" in words or "paws" in words or "oz" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words or "pods" in words or "unpods" in words or "unpires" in words:
-        key_presser.toggle(esc)
+        key_presser.press_once(esc)
         paused = not paused
         if paused:
-            key_presser.press(esc)
             key_presser.pause()
         else:
-            key_presser.press(esc)
             key_presser.unpause()
         #print("esc key input")
     if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words or "member" in words or ("and" in words and "burn" in words) or "remember" in words or ("and" in words and "her" in words):

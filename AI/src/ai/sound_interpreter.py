@@ -70,12 +70,12 @@ def main():
             }
 
             # DEBUG
-            #print("  ", {name: round(float(c), 2) for name, c in confidence.items()})
+            print("  ", {name: round(float(c), 2) for name, c in confidence.items()})
 
             sound = max(confidence, key=confidence.get)
             if confidence[sound] < 1:
                 # DEBUG
-                #print(f"  no input (best guess: {labels[np.argmax(scores)]})")
+                print(f"  no input (best guess: {labels[np.argmax(scores)]})")
                 continue
 
             if sound == "snap":

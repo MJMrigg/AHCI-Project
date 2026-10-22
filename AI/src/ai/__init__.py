@@ -51,7 +51,7 @@ for text in model.listen_continuously(phrase_time_limit=2):
         key_presser.press_once("t")
         print("t key input")
     if "open" in words or "close" in words or "clothes" in words:
-        key_presser.press_once("g")
+        key_presser.press_once("e")
         print("e key input")
     if "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words or "quid" in words or "quits" in words:
         if key_presser.key_states[esc] or paused:

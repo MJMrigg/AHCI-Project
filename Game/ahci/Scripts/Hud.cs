@@ -12,7 +12,6 @@ public partial class Hud : Control
 	
 	public void Reveal(int Book)
 	{
-		GD.Print(Book);
 		for(int i = 0; i < Book+1; i++)
 		{
 			Controls[i].Show();

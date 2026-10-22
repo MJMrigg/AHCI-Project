@@ -36,8 +36,6 @@ public partial class FireWizard : CharacterBody2D
 		}
 		else if(@event.IsActionPressed("wind"))
 		{
-			// GD.Print("wind");
-			// TODO: wind effect
 			foreach(var body in _windArea.GetOverlappingBodies())
 			{
 				if(body.IsInGroup("BOX") && body is RigidBody2D rigidBody)

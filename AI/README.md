@@ -1,5 +1,5 @@
 ## Run Commands
-- `uv run ai` - voice recognition program
+- `uv run src/ai/__init__.py` - voice recognition program
 - `uv run src/ai/sound_interpreter.py` - sound recognition program
 
 ## Sound Recognition Model Setup

@@ -18,7 +18,7 @@ for text in model.listen_continuously(phrase_time_limit=2):
     
     # Go through the words and run any commands found
     # Some commands have multiple words for speech impendements, accents, or in case the AI misinterprets the word
-    if "up" in words or "uh" in words or "bye" in words or "ah" in words or "off" in words or ("dog" in words and "barks" in words):
+    if "up" in words or "uh" in words or "bye" in words or "ah" in words or "off" in words or ("dog" in words and "barks" in words) or "ahh" in words:
         key_presser.release("s")
         key_presser.toggle("w")
         print("w key input")
@@ -41,7 +41,7 @@ for text in model.listen_continuously(phrase_time_limit=2):
         else:
             key_presser.unpause()
         print("esc key input")
-    if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words or "member" in words :
+    if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words or "member" in words or ("and" in words and "burn" in words):
         key_presser.press_once("f")
         print("f key input")
     if "gust" in words or "guts" in words or "wind" in words or "winned" in words or "gus" in words or "gussed" in words or "gas" in words or "guest" in words or "dust" in words:

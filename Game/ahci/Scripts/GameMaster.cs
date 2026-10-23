@@ -17,6 +17,7 @@ public partial class GameMaster : Node
 	public double EndTime = 0.0f;
 	public double TotalTime = 0.0f;
 	
+	//Which book number the player should be on
 	public int Book = -1;
 
 	public override void _Ready()
@@ -60,5 +61,20 @@ public partial class GameMaster : Node
 		PlayerWon = true;
 		EndTime = (double)Time.GetTicksMsec() / 1000.0;
 		TotalTime = EndTime - StartTime;
+		
+		string FileName = "Results/";
+		switch(Mode){
+			case 0:
+				FileName += "Keyboard.txt";
+				break;
+			case 1:
+				FileName += "Vocal.txt";
+				break;
+			case 2:
+				FileName += "Sound.txt";
+				break;
+		}
+		using var File = FileAccess.Open(FileName, FileAccess.ModeFlags.Write);
+		File.StoreString(TotalTime.ToString());
 	}
 }

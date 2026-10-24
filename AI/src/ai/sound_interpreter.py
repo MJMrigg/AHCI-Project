@@ -12,6 +12,7 @@ from scipy.signal import find_peaks
 from key_press import KeyPresser # will switch to ai.key_press once voice is contained in a main function
 from pynput.keyboard import Key
 
+DEBUG = False
 SR = 32000 # samples per sec
 
 def main():
@@ -60,21 +61,23 @@ def main():
                 "hum": score("Humming") / 0.03,
                 "whistle": max(score("Whistling") / 0.05, score("Whistle") / 0.05, score("Vehicle") / 0.05,
                                score("Sine wave") / 0.05),
-                "snap": score("Finger snapping") / 0.15,
+                "snap": max(score("Finger snapping") / 0.08, score("Clicking") / 0.05, score("Plop") / 0.05),
                 "clap": max(score("Clapping") / 0.08, score("Hands") / 0.05, score("Cap gun") / 0.05,
-                            score("Arrow") / 0.05),
+                            score("Chop") / 0.05, score("Arrow") / 0.05),
                 "blow": max(score("Wind") / 0.05, score("Wind noise (microphone)") / 0.2, score("Sigh") / 0.2,
                             score("Breathing") / 0.05),
-                "click": max(score("Clicking") / 0.05, score("Plop") / 0.05),
+                "scratch": max(score("Scratch") / 0.05, score("Writing") / 0.05, score("Rub") / 0.05),
                 "cough": max(score("Cough") / 0.15, score("Throat clearing") / 0.05),
             }
 
-            # DEBUG
-            print("  ", {name: round(float(c), 2) for name, c in confidence.items()})
+            if(DEBUG):
+                best = sorted(confidence, key=confidence.get, reverse=True)[:3]
+                print("  " + " | ".join(f"{name} {confidence[name]:.2f}" for name in best))
+                top = np.argsort(scores)[::-1][:3]
+                print("  heard: " + ", ".join(f"{labels[i]} {scores[i]:.2f}" for i in top))
 
             sound = max(confidence, key=confidence.get)
-            if confidence[sound] < 1:
-                # DEBUG
+            if DEBUG and confidence[sound] < 1:
                 print(f"  no input (best guess: {labels[np.argmax(scores)]})")
                 continue
 
@@ -138,9 +141,9 @@ def main():
             elif sound == "blow":
                 key_presser.press_once("g")
                 print("  input: blow (wind)")
-            elif sound == "click":
+            elif sound == "scratch":
                 key_presser.press_once("t")
-                print("  input: click (translate)")
+                print("  input: scratch (translate)")
             elif sound == "cough":
                 key_presser.press_once("e")
                 print("  input: cough (open)")

@@ -12,7 +12,7 @@ from scipy.signal import find_peaks
 from key_press import KeyPresser # will switch to ai.key_press once voice is contained in a main function
 from pynput.keyboard import Key
 
-DEBUG = False
+DEBUG = True
 SR = 32000 # samples per sec
 
 def main():
@@ -48,8 +48,8 @@ def main():
             audio = audio[:, 0]
 
             # Skip silence
-            if np.sqrt(np.mean(audio ** 2)) < 0.003:
-                continue
+            #if np.sqrt(np.mean(audio ** 2)) < 0.003:
+                #continue
 
             with torch.no_grad(): # disable gradient tracking
                 scores = model(torch.from_numpy(audio[None]), None)["clipwise_output"][0].numpy()

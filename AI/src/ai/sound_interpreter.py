@@ -19,19 +19,19 @@ SR = 32000 # samples per sec
 CALIBRATION_FILE = Path(__file__).parents[2] / "calibration.json"
 
 SOUNDS = { # sound: AudioSet classes counted as sound
-    "hum":      ["Humming", "Chant", "Singing bowl", "Mantra"],
+    "hum":      ["Humming", "Chant", "Singing bowl", "Mantra", "Moo", "Cattle, bovinae"],
     "whistle":  ["Whistling", "Whistle", "Vehicle", "Sine wave", "Siren", "Beep, bleep"],
     #"snap":     ["Finger snapping", "Clicking", "Plop"],
-    "knock":    ["Knock", "Tap", "Thump, thud"],
+    "knock":    ["Knock", "Tap", "Thump, thud", "Hammer"],
     "clap":     ["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop"],
-    "blow":     ["Wind", "Wind noise (microphone)", "Sigh"],
+    "blow":     ["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish"],
     "scratch":  ["Scratch", "Writing", "Rub"],
     "cough":    ["Cough", "Throat clearing"],
 }
 
 # Used if calibration is skipped
 DEFAULT_SILENCE = 0.003
-DEFAULT_THRESHOLDS = {"hum": 0.03, "whistle": 0.05, "snap": 0.15, "clap": 0.10, "blow": 0.06, "scratch": 0.05, "cough": 0.05}
+DEFAULT_THRESHOLDS = {"hum": 0.03, "whistle": 0.05, "knock": 0.06, "clap": 0.12, "blow": 0.05, "scratch": 0.05, "cough": 0.05}
 DEFAULT_CUTOFFS = {"hum": 110, "whistle": 1200}
 
 def record():

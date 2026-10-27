@@ -19,7 +19,7 @@ SR = 32000 # samples per sec
 CALIBRATION_FILE = Path(__file__).parents[2] / "calibration.json"
 
 SOUNDS = { # sound: AudioSet classes counted as sound
-    "hum":      ["Humming"],
+    "hum":      ["Humming", "Music", "Vehicle", "Cattle, bovinae"],
     "whistle":  ["Whistling", "Whistle", "Vehicle", "Sine wave"],
     "snap":     ["Finger snapping", "Clicking", "Plop"],
     "clap":     ["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire"],
@@ -97,7 +97,9 @@ def load_or_calibrate(model):
         return silence, thresholds, cutoffs
     if CALIBRATION_FILE.exists():
         data = json.loads(CALIBRATION_FILE.read_text())
+        print(f"[CALIBRATE] Loading saved calibration configs...")
         return data["silence"], data["thresholds"], data["cutoffs"]
+    print(f"[CALIBRATE] Loading default calibration configs...")
     return DEFAULT_SILENCE, DEFAULT_THRESHOLDS, DEFAULT_CUTOFFS
 
 def main():
@@ -155,14 +157,12 @@ def main():
 
             # Differentiate between low/high hum/whistle
             if sound == "hum" or sound == "whistle":
-                if sound == "hum":
-                    pitch = get_pitch(audio, 65, 1000)
-                else:
-                    pitch = get_pitch(audio, 400, 4000)
+                pitch = get_pitch(audio, 65, 4000)
                 if pitch is None:
                     if DEBUG:
                         print(f"  [DEBUG] {sound} detected, but pitch was not identified")
                     continue
+                sound = "whistle" if pitch > 400 else "hum"  # pitch decides hum vs whistle
                 if pitch < cutoffs[sound]:
                     sound = "low " + sound
                 else:

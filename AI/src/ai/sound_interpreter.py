@@ -19,18 +19,19 @@ SR = 32000 # samples per sec
 CALIBRATION_FILE = Path(__file__).parents[2] / "calibration.json"
 
 SOUNDS = { # sound: AudioSet classes counted as sound
-    "hum":      ["Humming", "Music", "Vehicle", "Cattle, bovinae"],
-    "whistle":  ["Whistling", "Whistle", "Vehicle", "Sine wave"],
-    "snap":     ["Finger snapping", "Clicking", "Plop"],
-    "clap":     ["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire"],
-    "blow":     ["Wind", "Wind noise (microphone)", "Sigh", "Breathing"],
+    "hum":      ["Humming", "Chant", "Singing bowl", "Mantra"],
+    "whistle":  ["Whistling", "Whistle", "Vehicle", "Sine wave", "Siren", "Beep, bleep"],
+    #"snap":     ["Finger snapping", "Clicking", "Plop"],
+    "knock":    ["Knock", "Tap", "Thump, thud"],
+    "clap":     ["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop"],
+    "blow":     ["Wind", "Wind noise (microphone)", "Sigh"],
     "scratch":  ["Scratch", "Writing", "Rub"],
     "cough":    ["Cough", "Throat clearing"],
 }
 
 # Used if calibration is skipped
 DEFAULT_SILENCE = 0.003
-DEFAULT_THRESHOLDS = {"hum": 0.03, "whistle": 0.05, "snap": 0.12, "clap": 0.05, "blow": 0.05, "scratch": 0.05, "cough": 0.05}
+DEFAULT_THRESHOLDS = {"hum": 0.03, "whistle": 0.05, "snap": 0.15, "clap": 0.10, "blow": 0.06, "scratch": 0.05, "cough": 0.05}
 DEFAULT_CUTOFFS = {"hum": 110, "whistle": 1200}
 
 def record():
@@ -66,7 +67,7 @@ def calibrate(model):
             input(f"[CALIBRATE] Press Enter, then {sound}. ({i+1}/3)")
             heard.append(sound_score(get_scores(model, record()), sound))
         noise = max(sound_score(s, sound) for s in background_scores)
-        thresholds[sound] = max(0.6 * min(heard), 2 * noise, 0.01)
+        thresholds[sound] = max(0.5 * min(heard), 2 * noise, 0.01)
         print(f" {sound}: threshold {thresholds[sound]:.3f}")
 
     cutoffs = {}
@@ -149,11 +150,19 @@ def main():
                     print(f"  [DEBUG] no input (best guess: {labels[np.argmax(scores)]})")
                 continue
 
-            if sound == "snap":
+            # if sound == "snap":
+            #     loudness = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
+            #     peaks, _ = find_peaks(loudness, height=max(0.2 * loudness.max(), 4 * np.median(loudness)), distance=16)
+            #     if len(peaks) >= 2:
+            #         sound = "double snap"
+            if sound == "knock":
                 loudness = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
                 peaks, _ = find_peaks(loudness, height=max(0.2 * loudness.max(), 4 * np.median(loudness)), distance=16)
                 if len(peaks) >= 2:
-                    sound = "double snap"
+                    sound = "double knock"
+
+            if sound == "blow" and get_pitch(audio, 400, 4000) is not None:
+                sound = "whistle"  # real blowing has no pitch; a pitched "blow" is a whistle
 
             # Differentiate between low/high hum/whistle
             if sound == "hum" or sound == "whistle":
@@ -169,8 +178,9 @@ def main():
                     sound = "high " + sound
 
             # Inputs
-            if paused and sound not in ("snap", "double snap"):
-                print(f"  [DEBUG] {sound} ignored (paused)")
+            if paused and sound not in ("knock", "double knock"):
+                if DEBUG:
+                    print(f"  [DEBUG] {sound} ignored (paused)")
                 continue
             if sound == "high hum":
                 key_presser.release("s")
@@ -188,14 +198,14 @@ def main():
                 key_presser.release("a")
                 key_presser.toggle("d")
                 print("  input: low whistle (right)")
-            elif sound == "snap":
+            elif sound == "knock":
                 key_presser.press_once(esc)
                 paused = not paused
                 if paused:
                     key_presser.pause()
                 else:
                     key_presser.unpause()
-                print("  input: snap (pause/unpause)")
+                print("  input: knock (pause/unpause)")
             elif sound == "clap":
                 key_presser.press_once("f")
                 print("  input: clap (fireball)")
@@ -208,13 +218,13 @@ def main():
             elif sound == "cough":
                 key_presser.press_once("e")
                 print("  input: cough (open)")
-            elif sound == "double snap":
+            elif sound == "double knock":
                 if paused:
                     key_presser.press_once("q")
-                    print("  input: double snap (quit)")
+                    print("  input: double knock (quit)")
                     return
                 else:
-                    print("  input: double snap (ignored; only quits when paused)")
+                    print("  input: double knock (ignored; only quits when paused)")
 
     except KeyboardInterrupt:
         print("\nStopped.")

@@ -19,14 +19,15 @@ SR = 32000 # samples per sec
 AI_DIR = Path(__file__).parents[2]
 CALIBRATION_FILE = AI_DIR/"calibration.json"
 MODEL_FILE = AI_DIR/"models"/"Cnn14_mAP=0.431.pth"
+CALIBRATION_STEPS = 3
 
 SOUNDS = {
     "hum":      (["Humming", "Chant", "Singing bowl", "Mantra", "Moo", "Cattle, bovinae"], 0.03),
-    "whistle":  (["Whistling", "Whistle", "Vehicle", "Sine wave", "Siren", "Beep, bleep"], 0.05),
-    #"snap":     ["Finger snapping", "Clicking", "Plop"],
-    "knock":    (["Knock", "Tap", "Thump, thud", "Hammer"], 0.06),
-    "clap":     (["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop"], 0.12),
-    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish"], 0.05),
+    "whistle":  (["Whistling", "Whistle", "Sine wave", "Siren", "Beep, bleep"], 0.05),
+    #"snap":     (["Finger snapping", "Clicking"], 0.08),
+    "knock":    (["Knock", "Tap", "Thump, thud"], 0.06),
+    "clap":     (["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop", "Slap, smack", "Hammer"], 0.12),
+    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish", "Breathing"], 0.05),
     "scratch":  (["Scratch", "Writing", "Rub"], 0.05),
     "cough":    (["Cough", "Throat clearing"], 0.05),
 }
@@ -72,8 +73,8 @@ def calibrate(model):
     attempts = {} # sound -> score arrays from each attempt
     for sound in SOUNDS:
         attempts[sound] = []
-        for i in range(3):
-            input(f"[CALIBRATE] Press Enter, then {sound}. ({i+1}/3)")
+        for i in range(CALIBRATION_STEPS):
+            input(f"[CALIBRATE] Press Enter, then {sound}. ({i+1}/{CALIBRATION_STEPS})")
             attempts[sound].append(get_scores(model, record()))
 
     thresholds = {}
@@ -81,8 +82,8 @@ def calibrate(model):
         heard = [sound_score(s, sound) for s in attempts[sound]]
         others = [sound_score(s, sound) for other in SOUNDS if other != sound for s in attempts[other]]
         noise = max(sound_score(s, sound) for s in background_scores)
-        # below your weakest attempt, but above background AND above what other sounds score
-        thresholds[sound] = max(0.5 * min(heard), 1.2 * max(others), 2 * noise, 0.01)
+        thresholds[sound] = max(0.5 * min(heard), 1.2 * max(others), 2 * noise, 0.5 * SOUNDS[sound][1])
+        thresholds[sound] = min(thresholds[sound], 3 * SOUNDS[sound][1])
         print(f" {sound}: threshold {thresholds[sound]:.3f}")
         if thresholds[sound] > min(heard):
             print(f"  WARNING: {sound} overlaps with another sound and may not always trigger")
@@ -157,6 +158,7 @@ def main():
                 print("  " + " | ".join(f"{name} {confidence[name]:.2f}" for name in best))
                 top = np.argsort(scores)[::-1][:3]
                 print("  heard: " + ", ".join(f"{labels[i]} {scores[i]:.2f}" for i in top))
+                print("  raw: " + " | ".join(f"{s} {sound_score(scores, s):.3f}" for s in SOUNDS))
 
             sound = max(confidence, key=confidence.get)
 
@@ -165,11 +167,6 @@ def main():
                     print(f"  [DEBUG] no input")
                 continue
 
-            # if sound == "snap":
-            #     envelope = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
-            #     peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=16)
-            #     if len(peaks) >= 2:
-            #         sound = "double snap"
             if sound == "knock":
                 envelope = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
                 peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=16)

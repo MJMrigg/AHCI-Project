@@ -25,3 +25,9 @@ mkdir $HOME\panns_data -Force; mkdir models -Force
 curl.exe -L -o $HOME\panns_data\class_labels_indices.csv https://raw.githubusercontent.com/qiuqiangkong/audioset_tagging_cnn/master/metadata/class_labels_indices.csv
 curl.exe -L -o "models\Cnn14_mAP=0.431.pth" "https://zenodo.org/records/3987831/files/Cnn14_mAP%3D0.431.pth?download=1"
 ```
+
+### Sound Model Calibration
+To calibrate the sound recognition, run the program with the `--calibrate` flag and follow the instructions in the terminal:
+```powershell
+uv run src/ai/sound_interpreter.py --calibrate
+```

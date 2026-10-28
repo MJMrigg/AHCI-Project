@@ -58,9 +58,9 @@ Hum Low to move Down
 Whistle High to move Left
 Whistle Low to move Right
 Cough to open/close books
-Click tongue to translate books
-Snap once to pause/unpause
-Snap twice to quit when paused"
+Scratch to translate books
+Knock once to pause/unpause
+Knock twice to quit when paused"
 
 [node name="Fire" type="Label" parent="ColorRect/VBoxContainer" unique_id=1828241968]
 visible = false

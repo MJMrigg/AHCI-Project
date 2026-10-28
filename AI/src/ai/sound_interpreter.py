@@ -16,22 +16,27 @@ import sys
 
 DEBUG = True
 SR = 32000 # samples per sec
-CALIBRATION_FILE = Path(__file__).parents[2] / "calibration.json"
+AI_DIR = Path(__file__).parents[2]
+CALIBRATION_FILE = AI_DIR/"calibration.json"
+MODEL_FILE = AI_DIR/"models"/"Cnn14_mAP=0.431.pth"
 
-SOUNDS = { # sound: AudioSet classes counted as sound
-    "hum":      ["Humming", "Chant", "Singing bowl", "Mantra", "Moo", "Cattle, bovinae"],
-    "whistle":  ["Whistling", "Whistle", "Vehicle", "Sine wave", "Siren", "Beep, bleep"],
+SOUNDS = {
+    "hum":      (["Humming", "Chant", "Singing bowl", "Mantra", "Moo", "Cattle, bovinae"], 0.03),
+    "whistle":  (["Whistling", "Whistle", "Vehicle", "Sine wave", "Siren", "Beep, bleep"], 0.05),
     #"snap":     ["Finger snapping", "Clicking", "Plop"],
-    "knock":    ["Knock", "Tap", "Thump, thud", "Hammer"],
-    "clap":     ["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop"],
-    "blow":     ["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish"],
-    "scratch":  ["Scratch", "Writing", "Rub"],
-    "cough":    ["Cough", "Throat clearing"],
+    "knock":    (["Knock", "Tap", "Thump, thud", "Hammer"], 0.06),
+    "clap":     (["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop"], 0.12),
+    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish"], 0.05),
+    "scratch":  (["Scratch", "Writing", "Rub"], 0.05),
+    "cough":    (["Cough", "Throat clearing"], 0.05),
 }
 
+PITCH_RANGES = {"hum": (65, 1000), "whistle": (400, 4000)} # Hz range
+HUM_WHISTLE_SPLIT = 400 # Hz: below = hum, above = whistle
+
 # Used if calibration is skipped
-DEFAULT_SILENCE = 0.003
-DEFAULT_THRESHOLDS = {"hum": 0.03, "whistle": 0.05, "knock": 0.06, "clap": 0.12, "blow": 0.05, "scratch": 0.05, "cough": 0.05}
+DEFAULT_SILENCE = 0.01
+DEFAULT_THRESHOLDS = {sound: default for sound, (classes, default) in SOUNDS.items()}
 DEFAULT_CUTOFFS = {"hum": 110, "whistle": 1200}
 
 def record():
@@ -44,7 +49,7 @@ def get_scores(model, audio):
         return model(torch.from_numpy(audio[None]), None)["clipwise_output"][0].numpy()
 
 def sound_score(scores, sound):
-    return max(scores[labels.index(c)] for c in SOUNDS[sound])
+    return max(scores[labels.index(c)] for c in SOUNDS[sound][0])
 
 def get_pitch(audio, fmin, fmax):
     f0, voiced, _ = librosa.pyin(audio, fmin=fmin, fmax=fmax, sr=SR)
@@ -52,26 +57,38 @@ def get_pitch(audio, fmin, fmax):
         return None
     return np.median(f0[voiced])
 
+def loudness(audio):
+    return librosa.feature.rms(y=audio, frame_length=1024, hop_length=512)[0].max()
+
 def calibrate(model):
     input("[CALIBRATE] Press Enter, then stay silent for 2 seconds.")
     background = [record(), record()]
     input("[CALIBRATE] Press Enter, then talk normally for 2 seconds.")
     background += [record(), record()]
-    silence = 2 * min(np.sqrt(np.mean(a ** 2)) for a in background[:2])
+    silence = 2 * min(loudness(a) for a in background[:2])
     background_scores = [get_scores(model, a) for a in background]
+
+    # Record every sound first, so each threshold can account for the others
+    attempts = {} # sound -> score arrays from each attempt
+    for sound in SOUNDS:
+        attempts[sound] = []
+        for i in range(3):
+            input(f"[CALIBRATE] Press Enter, then {sound}. ({i+1}/3)")
+            attempts[sound].append(get_scores(model, record()))
 
     thresholds = {}
     for sound in SOUNDS:
-        heard = []
-        for i in range(3):
-            input(f"[CALIBRATE] Press Enter, then {sound}. ({i+1}/3)")
-            heard.append(sound_score(get_scores(model, record()), sound))
+        heard = [sound_score(s, sound) for s in attempts[sound]]
+        others = [sound_score(s, sound) for other in SOUNDS if other != sound for s in attempts[other]]
         noise = max(sound_score(s, sound) for s in background_scores)
-        thresholds[sound] = max(0.5 * min(heard), 2 * noise, 0.01)
+        # below your weakest attempt, but above background AND above what other sounds score
+        thresholds[sound] = max(0.5 * min(heard), 1.2 * max(others), 2 * noise, 0.01)
         print(f" {sound}: threshold {thresholds[sound]:.3f}")
+        if thresholds[sound] > min(heard):
+            print(f"  WARNING: {sound} overlaps with another sound and may not always trigger")
 
     cutoffs = {}
-    for sound, fmin, fmax in [("hum", 65, 1000), ("whistle", 400, 4000)]:
+    for sound, (fmin, fmax) in PITCH_RANGES.items():
         pitches = []
         for level in ["LOW", "HIGH"]:
             pitch = None
@@ -105,14 +122,13 @@ def load_or_calibrate(model):
 
 def main():
     # Load model
-    model_path = Path(__file__).parents[2] / "models" / "Cnn14_mAP=0.431.pth"
-    if not model_path.exists():
+    if not MODEL_FILE.exists():
         print("Model file not found. See AI/README.md for setup instructions.")
         return
 
     print("Loading sound model...")
     model = Cnn14(sample_rate=SR, window_size=1024, hop_size=320, mel_bins=64, fmin=50, fmax=14000, classes_num=527)
-    checkpoint = torch.load(model_path, map_location="cpu", weights_only=False)
+    checkpoint = torch.load(MODEL_FILE, map_location="cpu", weights_only=False)
     model.load_state_dict(checkpoint["model"])
     model.eval()
 
@@ -121,7 +137,6 @@ def main():
 
     silence, thresholds, cutoffs = load_or_calibrate(model)
     key_presser = KeyPresser()
-    esc = Key.esc
     paused = False
 
     print("Listening...")
@@ -130,14 +145,14 @@ def main():
             audio = record()
 
             # Skip silence
-            if np.sqrt(np.mean(audio ** 2)) < silence:
+            if loudness(audio) < silence:
                 continue
 
             scores = get_scores(model, audio)
 
             confidence = {sound: sound_score(scores, sound) / thresholds[sound] for sound in SOUNDS}
 
-            if(DEBUG):
+            if DEBUG:
                 best = sorted(confidence, key=confidence.get, reverse=True)[:3]
                 print("  " + " | ".join(f"{name} {confidence[name]:.2f}" for name in best))
                 top = np.argsort(scores)[::-1][:3]
@@ -147,35 +162,30 @@ def main():
 
             if confidence[sound] < 1:
                 if DEBUG:
-                    print(f"  [DEBUG] no input (best guess: {labels[np.argmax(scores)]})")
+                    print(f"  [DEBUG] no input")
                 continue
 
             # if sound == "snap":
-            #     loudness = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
-            #     peaks, _ = find_peaks(loudness, height=max(0.2 * loudness.max(), 4 * np.median(loudness)), distance=16)
+            #     envelope = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
+            #     peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=16)
             #     if len(peaks) >= 2:
             #         sound = "double snap"
             if sound == "knock":
-                loudness = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
-                peaks, _ = find_peaks(loudness, height=max(0.2 * loudness.max(), 4 * np.median(loudness)), distance=16)
+                envelope = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
+                peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=16)
                 if len(peaks) >= 2:
                     sound = "double knock"
 
-            if sound == "blow" and get_pitch(audio, 400, 4000) is not None:
-                sound = "whistle"  # real blowing has no pitch; a pitched "blow" is a whistle
-
-            # Differentiate between low/high hum/whistle
-            if sound == "hum" or sound == "whistle":
+            # Hum/whistle: pitch decides which and whether low/high
+            if sound in ("hum", "whistle", "blow"):
                 pitch = get_pitch(audio, 65, 4000)
-                if pitch is None:
+                if pitch is not None and (sound != "blow" or pitch > HUM_WHISTLE_SPLIT):
+                    sound = "whistle" if pitch > HUM_WHISTLE_SPLIT else "hum"
+                    sound = ("low " if pitch < cutoffs[sound] else "high ") + sound
+                elif sound != "blow":
                     if DEBUG:
                         print(f"  [DEBUG] {sound} detected, but pitch was not identified")
                     continue
-                sound = "whistle" if pitch > 400 else "hum"  # pitch decides hum vs whistle
-                if pitch < cutoffs[sound]:
-                    sound = "low " + sound
-                else:
-                    sound = "high " + sound
 
             # Inputs
             if paused and sound not in ("knock", "double knock"):
@@ -183,28 +193,20 @@ def main():
                     print(f"  [DEBUG] {sound} ignored (paused)")
                 continue
             if sound == "high hum":
-                key_presser.release("s")
                 key_presser.toggle("w")
                 print("  input: high hum (up)")
             elif sound == "low hum":
-                key_presser.release("w")
                 key_presser.toggle("s")
                 print("  input: low hum (down)")
             elif sound == "high whistle":
-                key_presser.release("d")
                 key_presser.toggle("a")
                 print("  input: high whistle (left)")
             elif sound == "low whistle":
-                key_presser.release("a")
                 key_presser.toggle("d")
                 print("  input: low whistle (right)")
             elif sound == "knock":
-                key_presser.press_once(esc)
+                key_presser.press_once(Key.esc)
                 paused = not paused
-                if paused:
-                    key_presser.pause()
-                else:
-                    key_presser.unpause()
                 print("  input: knock (pause/unpause)")
             elif sound == "clap":
                 key_presser.press_once("f")

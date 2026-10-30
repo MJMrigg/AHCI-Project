@@ -54,21 +54,29 @@ public partial class GameMaster : Node
 		PlayerWon = false;
 		Book = -1;
 		
-		var args = "";
+		var command = "";
 		if(Mode == 1)
 		{
-			args = "/C uv run ../../AI/src/ai/__init__.py";
+			command = "uv run ../../AI/src/ai/__init__.py";
 		}
 		else if(Mode == 2)
 		{
-			args = "/C uv run ../../AI/src/ai/sound_interpreter.py";
+			command = "uv run ../../AI/src/ai/sound_interpreter.py";
 		}
 		
 		try
 		{
 			Process process = new Process();
-			process.StartInfo.FileName = "cmd.exe";
-			process.StartInfo.Arguments = args;
+			if(System.OperatingSystem.IsWindows())
+			{
+				process.StartInfo.FileName = "cmd.exe";
+				process.StartInfo.Arguments = "/C " + command;
+			}
+			else // macOS
+			{
+				process.StartInfo.FileName = "/bin/zsh";
+				process.StartInfo.Arguments = "-lc \"" + command + "\"";
+			}
 			process.StartInfo.CreateNoWindow = false;
 			
 			process.Start();

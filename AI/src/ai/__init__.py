@@ -7,6 +7,17 @@ key_presser = KeyPresser()
 esc = Key.esc
 paused = False
 
+up_words = ["high", "hi", "up", "uh", "bye", "ah", "off", "ahh"]
+down_words = ["low", "hello", "lo", "lowe", "love", "lobe", "loan", "down", "dow", "now"]
+right_words = ["right", "write", "rite", "white", "alright", "great"]
+left_words = ["left", "let", "laugh"]
+pause_words = ["pause", "paws", "pawns", "oz", "cause", "pawns", "pods", "unpause", "unpods", "unpires", "continue", "resume", "zoom"]
+ember_words = ["ember", "amber", "umber", "ever", "denver", "member", "remember"]
+gust_words = ["gust", "gassed", "gased", "gussed", "gus", "gas", "guest", "guessed", "guess", "wind", "winned", "win", "guts", "dust"]
+translate_words = ["translate", "late", "slate", "sleet", "interpret"]
+open_words = ["open", "pen", "pin", "ope", "close", "clothes"]
+quit_words = ["quit", "quid", "kit", "wet", "quits", "wit", "squid", "leave", "leaf"]
+
 # Continuously transcribe microphone words into text and evaluate those words in two second chunks
 for text in model.listen_continuously(phrase_time_limit=1):
     if not text:
@@ -18,46 +29,43 @@ for text in model.listen_continuously(phrase_time_limit=1):
     
     # Go through the words and run any commands found
     # Some commands have multiple words for speech impendements, accents, or in case the AI misinterprets the word
-    if "high" in words or "hi" in words or "up" in words or "uh" in words or "bye" in words or "ah" in words or "off" in words or ("dog" in words and "barks" in words) or "ahh" in words:
-        #key_presser.release("s")
-        key_presser.toggle("w")
-        #print("w key input")
-    if "low" in words or "hello" in words or "love" in words or "down" in words or "dow" in words or "now" in words:
-        #key_presser.release("w")
-        key_presser.toggle("s")
-        #print("s key input")
-    if "right" in words or "write" in words or "rite" in words or "white" in words or "great" in words:
-        #key_presser.release("a")
-        key_presser.toggle("d")
-        #print("d key input")
-    if "left" in words or "let" in words or "laugh" in words:
-        #key_presser.release("d")
-        key_presser.toggle("a")
-        #print("a key input")
-    if "pause" in words or "paws" in words or "oz" in words or "unpause" in words or "pawns" in words or "continue" in words or "cause" in words or "hars" in words or "pods" in words or "unpods" in words or "unpires" in words:
-        key_presser.press_once(esc)
-        paused = not paused
-        if paused:
-            key_presser.pause()
-        else:
-            key_presser.unpause()
-        #print("esc key input")
-    if "ember" in words or "umber" in words or "ever" in words or "amber" in words or "denver" in words or "member" in words or ("and" in words and "burn" in words) or "remember" in words or ("and" in words and "her" in words):
-        key_presser.press_once("f")
-        #print("f key input")
-    if "gust" in words or "guts" in words or "wind" in words or "winned" in words or "gus" in words or "gussed" in words or "gas" in words or "guest" in words or "dust" in words:
-        key_presser.press_once("g")
-        #print("g key input")
-    if "translate" in words or "interpret" in words or "late" in words or "sleet" in words:
-        key_presser.press_once("t")
-        #print("t key input")
-    if "open" in words or "close" in words or "clothes" in words:
-        key_presser.press_once("e")
-        #print("e key input")
-    if "quit" in words or "kit" in words or "leave" in words or "leaf" in words or "wit" in words or "wet" in words or "quid" in words or "quits" in words:
-        if key_presser.key_states[esc] or paused:
-            key_presser.press_once("q")
-            key_presser.release_all()
-            #print("quit input")
-            quit()
+    for word in words:
+        if word in up_words:
+            key_presser.toggle("w")
+            #print("w key input")
+        if word in down_words:
+            key_presser.toggle("s")
+            #print("s key input")
+        if word in right_words:
+            key_presser.toggle("d")
+            #print("d key input")
+        if word in left_words:
+            key_presser.toggle("a")
+            #print("a key input")
+        if word in pause_words:
+            key_presser.press_once(esc)
+            paused = not paused
+            if paused:
+                key_presser.pause()
+            else:
+                key_presser.unpause()
+            #print("esc key input")
+        if word in ember_words:
+            key_presser.press_once("f")
+            #print("f key input")
+        if word in gust_words:
+            key_presser.press_once("g")
+            #print("g key input")
+        if word in translate_words:
+            key_presser.press_once("t")
+            #print("t key input")
+        if word in open_words:
+            key_presser.press_once("e")
+            #print("e key input")
+        if word in quit_words:
+            if key_presser.key_states[esc] or paused:
+                key_presser.press_once("q")
+                key_presser.release_all()
+                #print("quit input")
+                quit()
     print(text)

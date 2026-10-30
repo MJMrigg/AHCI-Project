@@ -20,6 +20,8 @@ public partial class GameMaster : Node
 	
 	//Which book number the player should be on
 	public int Book = -1;
+	
+	public Process CurProcess;
 
 	public override void _Ready()
 	{
@@ -67,13 +69,13 @@ public partial class GameMaster : Node
 			
 			try
 			{
-				Process process = new Process();
-				process.StartInfo.FileName = "cmd.exe";
-				process.StartInfo.Arguments = args;
-				process.StartInfo.CreateNoWindow = false;
+				CurProcess = new Process();
+				CurProcess.StartInfo.FileName = "cmd.exe";
+				CurProcess.StartInfo.Arguments = args;
+				CurProcess.StartInfo.CreateNoWindow = false;
 				
-				process.Start();
-			}
+				CurProcess.Start();
+ 			}
 			catch (System.Exception e)
 			{
 				GD.Print(e.ToString());
@@ -97,9 +99,11 @@ public partial class GameMaster : Node
 				break;
 			case 1:
 				FileName += "Vocal.txt";
+				CurProcess.Kill(true);
 				break;
 			case 2:
 				FileName += "Sound.txt";
+				CurProcess.Kill(true);
 				break;
 		}
 		using var File = FileAccess.Open(FileName, FileAccess.ModeFlags.Write);

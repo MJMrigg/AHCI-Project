@@ -21,8 +21,6 @@ class KeyPresser:
         self.key_states[resolved] = False
 
     def toggle(self, key: str | Key | KeyCode) -> None:
-        resolved = self.controller._resolve(key)
-
         self.press(key)
         threading.Timer(0.25, self.release, args=(key,)).start()
     

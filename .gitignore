@@ -7,3 +7,4 @@
 *.idea
 /AI/src/ai/__pycache__
 *.pyc
+AI/calibration.json

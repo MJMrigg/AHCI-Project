@@ -249,7 +249,7 @@ def main():
 
             if sound == "clap":
                 envelope = librosa.feature.rms(y=audio[SR * 2 // 5:], frame_length=512, hop_length=160)[0]
-                peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=16)
+                peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=30)
                 if DEBUG:
                     print("  [DEBUG] peaks at " + ", ".join(
                         f"{0.4 + p * 0.005:.2f}s ({envelope[p] / envelope.max():.2f})" for p in peaks))

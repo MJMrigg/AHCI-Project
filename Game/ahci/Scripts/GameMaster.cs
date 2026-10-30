@@ -54,36 +54,30 @@ public partial class GameMaster : Node
 		PlayerWon = false;
 		Book = -1;
 		
-		var command = "";
-		if(Mode == 1)
-		{
-			command = "uv run ../../AI/src/ai/__init__.py";
-		}
-		else if(Mode == 2)
-		{
-			command = "uv run ../../AI/src/ai/sound_interpreter.py";
-		}
-		
-		try
-		{
-			Process process = new Process();
-			if(System.OperatingSystem.IsWindows())
+		if(Mode != 0){
+			var args = "";
+			if(Mode == 1)
 			{
-				process.StartInfo.FileName = "cmd.exe";
-				process.StartInfo.Arguments = "/C " + command;
+				args = "/C uv run ../../AI/src/ai/__init__.py";
 			}
-			else // macOS
+			else if(Mode == 2)
 			{
-				process.StartInfo.FileName = "/bin/zsh";
-				process.StartInfo.Arguments = "-lc \"" + command + "\"";
+				args = "/C uv run ../../AI/src/ai/sound_interpreter.py";
 			}
-			process.StartInfo.CreateNoWindow = false;
 			
-			process.Start();
-		}
-		catch (System.Exception e)
-		{
-			GD.Print(e.ToString());
+			try
+			{
+				Process process = new Process();
+				process.StartInfo.FileName = "cmd.exe";
+				process.StartInfo.Arguments = args;
+				process.StartInfo.CreateNoWindow = false;
+				
+				process.Start();
+			}
+			catch (System.Exception e)
+			{
+				GD.Print(e.ToString());
+			}
 		}
 		
 		GetTree().ChangeSceneToFile(Level1);

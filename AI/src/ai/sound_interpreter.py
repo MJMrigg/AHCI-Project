@@ -24,7 +24,7 @@ CALIBRATION_STEPS = 3
 # Model is only used for action sounds; hums and whistles are found by pitch
 SOUNDS = {
     "clap":     (["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop", "Slap, smack", "Hammer"], 0.12),
-    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish", "Breathing"], 0.05),
+    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish", "Breathing", "Snort"], 0.05),
     "cough":    (["Cough", "Throat clearing"], 0.05),
 }
 

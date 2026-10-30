@@ -9,7 +9,7 @@ from pathlib import Path
 import torch
 import librosa
 from scipy.signal import find_peaks
-from key_press import KeyPresser # will switch to ai.key_press once voice is contained in a main function
+from key_press import KeyPresser
 from pynput.keyboard import Key
 import json
 import sys
@@ -21,19 +21,27 @@ CALIBRATION_FILE = AI_DIR/"calibration.json"
 MODEL_FILE = AI_DIR/"models"/"Cnn14_mAP=0.431.pth"
 CALIBRATION_STEPS = 3
 
+# Model is only used for action sounds; hums and whistles are found by pitch
 SOUNDS = {
-    "hum":      (["Humming", "Chant", "Singing bowl", "Mantra", "Moo", "Cattle, bovinae"], 0.03),
-    "whistle":  (["Whistling", "Whistle", "Sine wave", "Siren", "Beep, bleep"], 0.05),
-    #"snap":     (["Finger snapping", "Clicking"], 0.08),
-    "knock":    (["Knock", "Tap", "Thump, thud"], 0.06),
     "clap":     (["Clapping", "Hands", "Cap gun", "Chop", "Arrow", "Gunshot, gunfire", "Plop", "Slap, smack", "Hammer"], 0.12),
-    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish", "Breathing"], 0.05),
-    "scratch":  (["Scratch", "Writing", "Rub"], 0.05),
+    "blow":     (["Wind", "Wind noise (microphone)", "Sigh", "Gasp", "Whoosh, swoosh, swish", "Breathing", "Snort"], 0.05),
     "cough":    (["Cough", "Throat clearing"], 0.05),
 }
 
-PITCH_RANGES = {"hum": (65, 1000), "whistle": (400, 4000)} # Hz range
+PITCH_RANGES = ["hum", "whistle"]
 HUM_WHISTLE_SPLIT = 400 # Hz: below = hum, above = whistle
+
+# Streaming
+BLOCK = SR // 20 # 50 ms of new audio per loop
+FRAME = 2048 # samples used for each pitch check (64 ms)
+CLARITY = 0.8 # how clean the pitch has to be (0-1)
+STEADY_FRAMES = 3 # blocks of steady pitch before moving
+STEADY_RATIO = 1.06 # max pitch change between blocks
+RELEASE_FRAMES = 2 # blocks without a tone before movement stops (100 ms)
+ACTION_LEVEL = 2 # x silence: how loud a sound must get to be sent to the model
+ACTION_WAIT = 10 # blocks to wait after a sound starts before classifying it (500 ms)
+
+MOVE_KEYS = {"high hum": "w", "low hum": "s", "high whistle": "a", "low whistle": "d"}
 
 # Used if calibration is skipped
 DEFAULT_SILENCE = 0.01
@@ -52,11 +60,24 @@ def get_scores(model, audio):
 def sound_score(scores, sound):
     return max(scores[labels.index(c)] for c in SOUNDS[sound][0])
 
-def get_pitch(audio, fmin, fmax):
-    f0, voiced, _ = librosa.pyin(audio, fmin=fmin, fmax=fmax, sr=SR)
-    if voiced.mean() < 0.3: # no clear pitch
+def get_tone(frame):
+    # Returns the pitch, or None if tone is not clean
+    f0 = librosa.yin(frame, fmin=65, fmax=4000, sr=SR, frame_length=FRAME, center=False)[0]
+    lag = int(round(SR / f0))
+    a, b = frame[:-lag], frame[lag:]
+    clarity = np.dot(a, b) / (np.sqrt(np.dot(a, a) * np.dot(b, b)) + 1e-10)
+    if clarity < CLARITY:
         return None
-    return np.median(f0[voiced])
+    return f0
+
+
+def get_pitch(audio):
+    # Median tone over a longer recording (used by calibration)
+    tones = [get_tone(audio[i:i + FRAME]) for i in range(0, len(audio) - FRAME, BLOCK)]
+    tones = [t for t in tones if t is not None]
+    if len(tones) < len(audio) // BLOCK // 3: # no clear pitch
+        return None
+    return np.median(tones)
 
 def loudness(audio):
     return librosa.feature.rms(y=audio, frame_length=1024, hop_length=512)[0].max()
@@ -70,7 +91,7 @@ def calibrate(model):
     background_scores = [get_scores(model, a) for a in background]
 
     # Record every sound first, so each threshold can account for the others
-    attempts = {} # sound -> score arrays from each attempt
+    attempts = {} # scores for each attempt
     for sound in SOUNDS:
         attempts[sound] = []
         for i in range(CALIBRATION_STEPS):
@@ -86,20 +107,24 @@ def calibrate(model):
         thresholds[sound] = min(thresholds[sound], 3 * SOUNDS[sound][1])
         print(f" {sound}: threshold {thresholds[sound]:.3f}")
         if thresholds[sound] > min(heard):
-            print(f"  WARNING: {sound} overlaps with another sound and may not always trigger")
+            print(f"    [CAUTION] {sound} overlaps with another sound and may not always trigger")
 
     cutoffs = {}
-    for sound, (fmin, fmax) in PITCH_RANGES.items():
+    for sound in PITCH_RANGES:
         pitches = []
         for level in ["LOW", "HIGH"]:
             pitch = None
             while pitch is None:
                 input(f"[CALIBRATE] Press Enter, then {sound} {level} for a whole second.")
-                pitch = get_pitch(record(), fmin, fmax)
+                pitch = get_pitch(record())
                 if pitch is None:
                     print("  No clear pitch, try again.")
             pitches.append(pitch)
         cutoffs[sound] = np.sqrt(pitches[0] * pitches[1])
+        if sound == "hum" and pitches[1] > HUM_WHISTLE_SPLIT:
+            print("    [CAUTION] high hum is above the hum/whistle split; hum lower")
+        if sound == "whistle" and pitches[0] < HUM_WHISTLE_SPLIT:
+            print("    [CAUTION] low whistle is below the hum/whistle split; whistle higher")
         print(f"  {sound}: low {pitches[0]:.0f} Hz, high {pitches[1]:.0f} Hz, cutoff {cutoffs[sound]:.0f} Hz")
 
     return silence, thresholds, cutoffs
@@ -133,24 +158,80 @@ def main():
     model.load_state_dict(checkpoint["model"])
     model.eval()
 
-    # Perform first pitch check since it's slow and could affect the game
-    librosa.pyin(np.zeros(SR, dtype=np.float32), fmin=65, fmax=1000, sr=SR)
+    # First model and pitch checks are slow, so they are called here to get them out of the way
+    get_scores(model, np.zeros(SR, dtype=np.float32))
+    get_tone(np.random.default_rng(0).normal(0, 0.01, FRAME).astype(np.float32))
 
     silence, thresholds, cutoffs = load_or_calibrate(model)
     key_presser = KeyPresser()
     paused = False
 
+    buffer = np.zeros(SR, dtype=np.float32) # last 1 second of audio
+    tones = [] # pitch of recent blocks (None = no tone)
+    moving = None # movement key currently held down
+    quiet_frames = 0 # blocks in a row without a tone while moving
+    was_loud = False
+    action_wait = 0 # blocks left before the current sound gets classified
+    action_tones = 0 # tone blocks while waiting
+
     print("Listening...")
+    stream = sd.InputStream(samplerate=SR, channels=1, dtype="float32", blocksize=BLOCK)
+    stream.start()
     try:
         while True:
-            audio = record()
+            block, _ = stream.read(BLOCK)
+            buffer = np.concatenate([buffer[BLOCK:], block[:, 0]])
+            frame = buffer[-FRAME:]
+            loud = loudness(block[:, 0]) > ACTION_LEVEL * silence
 
-            # Skip silence
-            if loudness(audio) < silence:
+            # Movement (hum/whistle by pitch)
+            tone = get_tone(frame) if loudness(frame) > silence else None
+            tones = (tones + [tone])[-STEADY_FRAMES:]
+
+            sound = None
+            if tone is not None:
+                sound = "whistle" if tone > HUM_WHISTLE_SPLIT else "hum"
+                sound = ("low " if tone < cutoffs[sound] else "high ") + sound
+
+            if moving is None:
+                # Start only when the pitch has been steady for a moment
+                steady = None not in tones and len(tones) == STEADY_FRAMES and max(tones) / min(tones) < STEADY_RATIO
+                if steady and not paused:
+                    moving = MOVE_KEYS[sound]
+                    quiet_frames = 0
+                    key_presser.press(moving)
+                    print(f"  input: {sound} ({tone:.0f} Hz) -> hold {moving}")
+            elif tone is None:
+                # Stop after the tone has been gone for a moment
+                quiet_frames += 1
+                if quiet_frames >= RELEASE_FRAMES:
+                    key_presser.release(moving)
+                    print(f"  input: release {moving}")
+                    moving = None
+            else:
+                quiet_frames = 0  # still holding the tone; direction stays the same until it stops
+
+            # Actions: model on sounds that suddenly start
+            classify = False
+            if action_wait > 0:
+                action_wait -= 1
+                if tone is not None:
+                    action_tones += 1
+                classify = action_wait == 0
+            elif loud and not was_loud and tone is None and moving is None:
+                action_wait = ACTION_WAIT # sound started; wait for rest of the sound
+                action_tones = 0
+            was_loud = loud
+
+            if not classify:
+                continue
+            if action_tones >= 3: # it turned into a hum/whistle
+                if DEBUG:
+                    print("  [DEBUG] action skipped (uncertain)")
                 continue
 
+            audio = buffer # 0.5 s before the sound started + 0.5 s after
             scores = get_scores(model, audio)
-
             confidence = {sound: sound_score(scores, sound) / thresholds[sound] for sound in SOUNDS}
 
             if DEBUG:
@@ -158,7 +239,6 @@ def main():
                 print("  " + " | ".join(f"{name} {confidence[name]:.2f}" for name in best))
                 top = np.argsort(scores)[::-1][:3]
                 print("  heard: " + ", ".join(f"{labels[i]} {scores[i]:.2f}" for i in top))
-                print("  raw: " + " | ".join(f"{s} {sound_score(scores, s):.3f}" for s in SOUNDS))
 
             sound = max(confidence, key=confidence.get)
 
@@ -167,67 +247,56 @@ def main():
                     print(f"  [DEBUG] no input")
                 continue
 
-            if sound == "knock":
-                envelope = librosa.feature.rms(y=audio, frame_length=512, hop_length=160)[0]
-                peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=16)
+            if sound == "clap":
+                envelope = librosa.feature.rms(y=audio[SR * 2 // 5:], frame_length=512, hop_length=160)[0]
+                peaks, _ = find_peaks(envelope, height=max(0.2 * envelope.max(), 4 * np.median(envelope)), distance=30)
+                if DEBUG:
+                    print("  [DEBUG] peaks at " + ", ".join(
+                        f"{0.4 + p * 0.005:.2f}s ({envelope[p] / envelope.max():.2f})" for p in peaks))
                 if len(peaks) >= 2:
-                    sound = "double knock"
+                    sound = "double clap"
 
-            # Hum/whistle: pitch decides which and whether low/high
-            if sound in ("hum", "whistle", "blow"):
-                pitch = get_pitch(audio, 65, 4000)
-                if pitch is not None and (sound != "blow" or pitch > HUM_WHISTLE_SPLIT):
-                    sound = "whistle" if pitch > HUM_WHISTLE_SPLIT else "hum"
-                    sound = ("low " if pitch < cutoffs[sound] else "high ") + sound
-                elif sound != "blow":
-                    if DEBUG:
-                        print(f"  [DEBUG] {sound} detected, but pitch was not identified")
-                    continue
+            if sound == "blow" and loud:  # still blowing 0.5 s after it started
+                sound = "long blow"
 
             # Inputs
-            if paused and sound not in ("knock", "double knock"):
+            if paused and sound not in ("clap", "double clap"):
                 if DEBUG:
                     print(f"  [DEBUG] {sound} ignored (paused)")
                 continue
-            if sound == "high hum":
-                key_presser.toggle("w")
-                print("  input: high hum (up)")
-            elif sound == "low hum":
-                key_presser.toggle("s")
-                print("  input: low hum (down)")
-            elif sound == "high whistle":
-                key_presser.toggle("a")
-                print("  input: high whistle (left)")
-            elif sound == "low whistle":
-                key_presser.toggle("d")
-                print("  input: low whistle (right)")
-            elif sound == "knock":
+            if sound == "double clap" and not paused:
+                if moving is not None:
+                    key_presser.release(moving)
+                    moving = None
                 key_presser.press_once(Key.esc)
-                paused = not paused
-                print("  input: knock (pause/unpause)")
+                paused = True
+                print("  input: double clap (pause)")
+            elif sound == "clap" and paused:
+                key_presser.press_once(Key.esc)
+                paused = False
+                print("  input: clap (resume)")
+            elif sound == "double clap" and paused:
+                key_presser.press_once("q")
+                print("  input: double clap (quit)")
+                return
             elif sound == "clap":
                 key_presser.press_once("f")
                 print("  input: clap (fireball)")
             elif sound == "blow":
                 key_presser.press_once("g")
-                print("  input: blow (wind)")
-            elif sound == "scratch":
+                print("  input: short puff (wind)")
+            elif sound == "long blow":
                 key_presser.press_once("t")
-                print("  input: scratch (translate)")
+                print("  input: long blow (translate)")
             elif sound == "cough":
                 key_presser.press_once("e")
                 print("  input: cough (open)")
-            elif sound == "double knock":
-                if paused:
-                    key_presser.press_once("q")
-                    print("  input: double knock (quit)")
-                    return
-                else:
-                    print("  input: double knock (ignored; only quits when paused)")
 
     except KeyboardInterrupt:
         print("\nStopped.")
     finally:
+        stream.stop()
+        stream.close()
         key_presser.release_all()
 
 if __name__ == "__main__":

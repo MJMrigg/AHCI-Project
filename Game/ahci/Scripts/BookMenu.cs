@@ -60,11 +60,11 @@ public partial class BookMenu : Control
 		_label = GetNode<Label>("ColorRect/Label");
 	}
 
-	public override void _Process(double delta)
+	public override void _UnhandledInput(InputEvent @event)
 	{
-		base._Process(delta);
+		base._UnhandledInput(@event);
 		// Handles user input for translating book
-		if (Input.IsActionPressed("Translate"))
+		if (@event.IsActionPressed("Translate"))
 		{
 			Translate();
 		}
@@ -72,10 +72,12 @@ public partial class BookMenu : Control
 
 	public void Translate()
 	{
+		GD.Print("TEST1");
 		if(_activeBook == null)
 		{
 			return;
 		}
+		GD.Print("TEST2");
 		_label.Text = _activeBook.Translated + TranslatedInstructions;
 		GameMaster.Instance.Book = _activeBook.BookNumber;
 		EmitSignal(SignalName.Read, _activeBook.BookNumber);

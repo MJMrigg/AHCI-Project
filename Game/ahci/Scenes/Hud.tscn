@@ -45,30 +45,31 @@ Press E to open/close books
 Press T to translate books
 Press Esc to pause/unpause
 Press Q to quit when paused"
-VocalText = "Say \"High\" to move Up
-Say \"Low\" to move Down
-Say \"Left\" to move Left
-Say \"Right\" to move Right
-Say \"Open/Close\" to open/close books
-Press \"Translate\" to translate books
-Press \"Pause/Unpause\" to pause/unpause
-Press \"Quit\" to quit when paused"
+VocalText = "Say \"Move High\" to move Up
+Say \"Move Low\" to move Down
+Say \"Move Left\" to move Left
+Say \"Move Right\" to move Right
+Say \"Open/Close the Book\" to open/close books
+Press \"Translate the Words\" to translate books
+Press \"Pause/Unpause the Game\" to pause/unpause
+Press \"Quit the Game\" to quit when paused"
 SoundText = "Hum High to move Up
 Hum Low to move Down
 Whistle High to move Left
 Whistle Low to move Right
 Cough to open/close books
-Scratch to translate books
-Knock once to pause/unpause
-Knock twice to quit when paused"
+Blow long to translate books
+Clap twice to pause
+Clap once when paused to unpause
+Clap twice when paused to quit when paused"
 
 [node name="Fire" type="Label" parent="ColorRect/VBoxContainer" unique_id=1828241968]
 visible = false
 layout_mode = 2
 script = ExtResource("2_8vcfy")
 KeyboardText = "Press F to cast fireball."
-VocalText = "Say \"Ember\" to cast fireball."
-SoundText = "Clap Hands to cast fireball."
+VocalText = "Say \"Shoot Ember\" to cast fireball."
+SoundText = "Clap once when unpaused to cast fireball."
 
 [node name="Gust" type="Label" parent="ColorRect/VBoxContainer" unique_id=1483072044]
 visible = false
@@ -76,5 +77,5 @@ layout_mode = 2
 text = "Press G to cast Gust spell"
 script = ExtResource("2_8vcfy")
 KeyboardText = "Press G to cast wind spell."
-VocalText = "Say \"Gust\" to cast wind spell."
-SoundText = "Blow air to cast wind spell."
+VocalText = "Say \"Cast Gust\" to cast wind spell."
+SoundText = "Blow short to cast wind spell."

@@ -1,6 +1,7 @@
 ## Run Commands
 - `uv run src/ai/__init__.py` - voice recognition program
 - `uv run src/ai/sound_interpreter.py` - sound recognition program
+  - `uv run src/ai/sound_interpreter.py --calibrate` - new calibration
 
 ## Sound Recognition Model Setup
 The sound recognizer uses the PANNs Cnn14 audio tagging model. It requires two files that are **not** in the repo.
@@ -9,7 +10,7 @@ The sound recognizer uses the PANNs Cnn14 audio tagging model. It requires two f
 - `Cnn14_mAP=0.431.pth` (327 MB) in `AI/models/`
     - Contains model weights
 
-### Model Installation
+### Installation
 `cd` to the `AHCI-Project/AI` folder, then:
 
 **macOS/Linux**
@@ -26,7 +27,7 @@ curl.exe -L -o $HOME\panns_data\class_labels_indices.csv https://raw.githubuserc
 curl.exe -L -o "models\Cnn14_mAP=0.431.pth" "https://zenodo.org/records/3987831/files/Cnn14_mAP%3D0.431.pth?download=1"
 ```
 
-### Sound Model Calibration
+### Calibration
 To calibrate the sound recognition, run the program with the `--calibrate` flag and follow the instructions in the terminal:
 ```powershell
 uv run src/ai/sound_interpreter.py --calibrate

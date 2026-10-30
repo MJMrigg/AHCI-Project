@@ -6,5 +6,8 @@
 *.pth
 *.idea
 /AI/src/ai/__pycache__
-AI/calibration.json
 *.pyc
+AI/calibration.json
+
+Build
+Build.zip

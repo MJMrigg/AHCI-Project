@@ -60,11 +60,11 @@ public partial class GameMaster : Node
 			var args = "";
 			if(Mode == 1)
 			{
-				args = "/C uv run ../../AI/src/ai/__init__.py";
+				args = "/C uv run AI/src/ai/__init__.py";
 			}
 			else if(Mode == 2)
 			{
-				args = "/C uv run ../../AI/src/ai/sound_interpreter.py";
+				args = "/C uv run AI/src/ai/sound_interpreter.py";
 			}
 			
 			try

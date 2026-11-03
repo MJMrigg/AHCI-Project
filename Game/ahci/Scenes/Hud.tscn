@@ -49,10 +49,10 @@ VocalText = "Say \"Move High\" to move Up
 Say \"Move Low\" to move Down
 Say \"Move Left\" to move Left
 Say \"Move Right\" to move Right
-Say \"Open/Close the Book\" to open/close books
-Press \"Translate the Words\" to translate books
-Press \"Pause/Unpause the Game\" to pause/unpause
-Press \"Quit the Game\" to quit when paused"
+Say \"Open/Close Book\" to open/close books
+Press \"Translate Words\" to translate books
+Press \"Pause/Unpause Game\" to pause/unpause
+Press \"Quit Game\" to quit when paused"
 SoundText = "Hum High to move Up
 Hum Low to move Down
 Whistle High to move Left
